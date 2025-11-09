@@ -1,1 +1,3 @@
 # projeto-individual
+
+<img src="./site/public/assets/logo-castor.png">
