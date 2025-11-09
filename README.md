@@ -14,6 +14,7 @@
 ## 📖 **Descrição do Projeto**
 
 O **CastorFamily** é uma plataforma digital criada com o objetivo de **apresentar e promover o Clube de Desbravadores**, com foco especial no **Clube Castor**.  
+
 Mais do que um simples site informativo, o projeto busca fortalecer os valores e princípios que definem os Desbravadores: **desenvolvimento juvenil, cidadania e aprendizado cristão**.
 
 Por meio de uma interface moderna e intuitiva, o **CastorFamily** aproxima novas pessoas do movimento e oferece aos desbravadores ferramentas para o **aprendizado de especialidades**, o **crescimento pessoal** e o **fortalecimento da comunidade**.
