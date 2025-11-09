@@ -113,6 +113,16 @@ INSERT INTO medida (dht11_umidade, dht11_temperatura, chave, momento, fk_aquario
     INSERT INTO medida (dht11_umidade, dht11_temperatura, chave, momento, fk_aquario) VALUES
     (45, 25, 1, '2020-03-01 08:00:00', 1),
     (55, 26, 0, '2021-03-10 10:30:00', 2);
+    
+    INSERT INTO medida (dht11_umidade, dht11_temperatura, chave, momento, fk_aquario) VALUES
+    (80, 70, 1, '2025-11-08 08:00:00', 1);
+    
+    INSERT INTO medida (dht11_umidade, dht11_temperatura, chave, momento, fk_aquario) VALUES
+    (90, 80, 1, '2025-11-07 08:00:00', 2);
+  
+    
+    
+    
 
 
 
