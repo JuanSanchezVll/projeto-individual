@@ -1,6 +1,6 @@
 ## **CastorFamily** 
 
-<img src="./site/public/assets/logo-castor.png" height="500px">
+<img src="./site/public/assets/imgs/logo-castor.png" height="500px">
 
 
 > 🌟 *Unindo aprendizado e tecnologia em um só propósito.*
