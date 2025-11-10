@@ -6,96 +6,103 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>AquaTech | Cadastro</title>
+  <title>Cadastro - CastorFamily </title>
 
+  <link rel="stylesheet" href="./css/cadastro.css" />
   <script src="./js/sessao.js"></script>
 
-  <link rel="stylesheet" href="./css/estilo.css" />
-  <link rel="icon" href="./assets/icon/favicon2.ico" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
 <body onload="listar()">
-  <!--header inicio-->
-  <div class="header">
+
+  <!-- HEADER -->
+  <header class="header">
     <div class="container">
-      <h1 class="titulo">AquaTech</h1>
-      <ul class="navbar">
-        <li>
-          <a href="index.html">Inicial</a>
-        </li>
-        <li>
-          <a href="simulador.html">Simulador</a>
-        </li>
-        <li>|</li>
-        <li>
-          <a href="login.html">Login</a>
-        </li>
-        <li class="agora">
-          <a href="#">Cadastro</a>
-        </li>
+      <div class="logo-area">
+        <img src="./assets/imgs/logo-castor.png" alt="Logo Castor" class="logo">
+        <h1 class="brand"><span>Castor</span>Family</h1>
+      </div>
+
+      <nav class="navbar">
+        <ul class="menu-center">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#clube">Clube Castor</a></li>
+          <li><a href="#campori">Campori</a></li>
+          <li><a href="#sobre">Sobre mim</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+          <li><a href="#simulador">Simulador</a></li>
+        </ul>
+      </nav>
+
+      <ul class="menu-right">
+        <li><a href="./login.html" id="login">Login</a></li>
+        <li><a href="./cadastro.html" id="cadastro" class="ativo">Cadastro</a></li>
       </ul>
     </div>
-  </div>
-  <!--header fim-->
+  </header>
+  <!-- HEADER FIM -->
 
-  <div class="login">
+  <!-- CONTEÚDO -->
+  <div class="login" style="margin-top:120px">
     <div class="alerta_erro">
       <div class="card_erro" id="cardErro">
         <span id="mensagem_erro"></span>
       </div>
     </div>
-    <div class="container">
-      <div class="card card-cadastro">
+
+    <div class="container-login">
+      <div class="card-login">
         <h2>Bem-vindo!</h2>
+        <p>Preencha os campos abaixo para criar sua conta</p>
+
         <div class="formulario">
-          <!--
-                         Para inserir mais um campo, copie uma das inputs abaixo.
-                         Assim que inserir vá para o script abaixo.
-                     -->
           <div class="campo">
-            <span>Código de ativação:</span>
+            <label for="codigo_input">Código de ativação:</label>
             <input id="codigo_input" type="text" placeholder="Insira aqui seu código" />
           </div>
+
           <div class="campo">
-            <span>CPF:</span>
+            <label for="cpf_input">CPF:</label>
             <input id="cpf_input" type="number" placeholder="Insira aqui seu CPF">
           </div>
+
           <div class="campo">
-            <span>Nome:</span>
+            <label for="nome_input">Nome:</label>
             <input id="nome_input" type="text" placeholder="Seu nome" />
           </div>
+
           <div class="campo">
-            <span>E-mail:</span>
+            <label for="email_input">E-mail:</label>
             <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
           </div>
+
           <div class="campo">
-            <span>Senha:</span>
+            <label for="senha_input">Senha:</label>
             <input id="senha_input" type="password" placeholder="******" />
           </div>
+
           <div class="campo">
-            <span>Confirmação da Senha:</span>
+            <label for="confirmacao_senha_input">Confirmação da Senha:</label>
             <input id="confirmacao_senha_input" type="password" placeholder="******" />
           </div>
+
           <button class="botao" onclick="cadastrar()">Cadastrar</button>
         </div>
+
         <div id="div_aguardar" class="loading-div">
           <img src="./assets/circle-loading.gif" id="loading-gif" />
         </div>
-
-        <div id="div_erros_login"></div>
       </div>
     </div>
   </div>
 
-  <!--footer inicio-->
-  <div class="footer">
-    <div class="container">
-      <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-      <span class="version">v1.0.0</span>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container-footer">
+      <p>© 2025 CastorFamily | Todos os direitos reservados</p>
     </div>
-  </div>
-  <!--footer fim-->
+  </footer>
+
 </body>
 
 </html>
