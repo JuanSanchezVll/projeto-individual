@@ -1,0 +1,248 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background-color: #000;
+  color: white;
+  scroll-behavior: smooth;
+}
+
+/* CONTAINER BASE */
+.container {
+  width: 90%;
+  max-width: 1300px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.2) 100%);
+  padding: 10px 0;
+  z-index: 10;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* LOGO E TEXTO */
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+}
+
+.logo {
+  width: 70px;
+  height: auto;
+  transform: scale(1.2);
+  transform-origin: center;
+}
+
+.brand {
+  font-size: 23px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.brand span {
+  color: #f36a09;
+}
+
+/* MENU CENTRAL */
+.navbar {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.menu-center {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.menu-center a {
+  color: #e3b062;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.menu-center a:hover,
+.menu-center a.ativo {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* LOGIN / CADASTRO */
+.menu-right {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+}
+
+#login,
+#cadastro {
+  background-color: #f36a09;
+  padding: 6px 16px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+#login:hover,
+#cadastro:hover {
+  background-color: #fff;
+  color: #2A1110;
+}
+
+/* bloco 1 */
+.hero {
+  height: 100vh;
+  background: url('../assets/imgs/bem-vindo.png') no-repeat center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 0px;
+}
+
+/* .hero .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(31, 25, 25, 0.5);
+} */
+
+.hero .conteudo {
+  position: relative;
+  text-align: center;
+  color: white;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.hero button {
+  background-color: #f36a09;
+  border: none;
+  padding: 12px 28px;
+  font-size: 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 400px;
+  color: white;
+
+}
+
+.hero button:hover {
+  background-color: #fff;
+  color: #2A1110;
+}
+
+/* SEÇÕES GERAIS */
+.bloco {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #111;
+  border-top: 2px solid #222;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.bloco:nth-child(even) {
+  background-color: #1a1a1a;
+}
+
+.bloco h2 {
+  color: #f36a09;
+  margin-bottom: 15px;
+  font-size: 32px;
+}
+
+.bloco p {
+  font-size: 18px;
+  color: #ccc;
+  max-width: 600px;
+}
+
+/* FOOTER */
+.footer {
+  background-color: #000;
+  text-align: center;
+  padding: 30px 0;
+  color: #bbb;
+  font-size: 14px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1024px) {
+  .menu-center {
+    gap: 18px;
+  }
+
+  .brand {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar {
+    order: 3;
+  }
+
+  .menu-right {
+    order: 2;
+  }
+
+  .logo-area {
+    order: 1;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  .menu-center {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
