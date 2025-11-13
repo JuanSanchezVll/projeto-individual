@@ -12,6 +12,7 @@
 
 <body>
 
+
   <!-- HEADER -->
   <header class="header">
     <div class="container">
@@ -49,6 +50,19 @@
             <p>Junte-se à nossa família e viva grandes aventuras!</p> -->
       <a href="#clube"><button>Saiba Mais</button></a>
     </div>
+  </section>
+
+  <!-- SEÇÃO CARROSEL -->
+  <section class="bloco" id="clube">
+
+    <h2>Conheça os Desbravadores</h2>
+
+    <div id="img_carrosel">
+      <div id="dentro_carrosel_div" class="adicionar_anima_carrosel"
+        style="background-image: url(assets/imgs/imagens_carrosel/foto-campori2.jpeg);">
+      </div>
+    </div>
+
   </section>
 
   <!-- SEÇÃO CLUBE -->
@@ -89,4 +103,37 @@
   </footer>
 </body>
 
+
+
+
+
 </html>
+
+<script>
+
+  setInterval(mudarDiv, 4000)
+
+  listaIMG = ["foto-campori.jpeg", "foto_barracas.jpg", "foto-campori2.jpeg"]
+
+  var i = 0
+
+  function mudarDiv() {
+
+    console.log(listaIMG)
+
+    if (i == (listaIMG.length - 1)) {
+
+      console.log("entrou aqui 2")
+      dentro_carrosel_div.style.backgroundImage = `url(assets/imgs/imagens_carrosel/${listaIMG[i]})`;
+      i = -1;
+    }
+
+    else {
+      console.log("entrou aqui 1")
+      dentro_carrosel_div.style.backgroundImage = `url(assets/imgs/imagens_carrosel/${listaIMG[i]})`;
+    }
+
+    i++;
+  }
+
+</script>

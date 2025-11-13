@@ -83,7 +83,8 @@ body {
 .menu-center a:hover,
 .menu-center a.ativo {
   color: #fff;
-  text-decoration: underline;
+  /* text-decoration: underline; */
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* LOGIN / CADASTRO */
@@ -173,7 +174,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #111;
+  background-color: #000000;
   border-top: 2px solid #222;
   text-align: center;
   padding: 40px 20px;
@@ -186,7 +187,7 @@ body {
 .bloco h2 {
   color: #f36a09;
   margin-bottom: 15px;
-  font-size: 32px;
+  font-size: 40px;
 }
 
 .bloco p {
@@ -194,6 +195,49 @@ body {
   color: #ccc;
   max-width: 600px;
 }
+
+/* Carrosel */
+
+#img_carrosel {
+  width: 100vh;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 3%;
+}
+
+#dentro_carrosel_div {
+  width: 100vh;
+  height: 100%;
+  background-size: cover;
+  border: 2px solid black;
+}
+
+.adicionar_anima_carrosel {
+  animation: animado_carrosel 4s infinite;
+}
+
+
+@keyframes animado_carrosel {
+  0% {
+    transform: translateX(-100vh) scale(0.8);
+    opacity: 0
+  }
+
+  50% {
+    transform: translateX(0px) scale(1);
+    opacity: 1
+  }
+
+  100% {
+    transform: translateX(100vh) scale(0.8);
+    opacity: 0
+  }
+}
+
+
+
+
 
 /* FOOTER */
 .footer {
@@ -205,7 +249,7 @@ body {
 }
 
 /* RESPONSIVIDADE */
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
   .menu-center {
     gap: 18px;
   }
@@ -245,5 +289,4 @@ body {
     flex-wrap: wrap;
     justify-content: center;
   }
-}
-
+} */
