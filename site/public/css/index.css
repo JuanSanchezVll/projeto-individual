@@ -217,7 +217,7 @@ body {
   animation: animado_carrosel 4s infinite;
 }
 
-
+/* uma regra pra definir os diferentes estágios de uma animação */
 @keyframes animado_carrosel {
   0% {
     transform: translateX(-100vh) scale(0.8);
