@@ -112,7 +112,7 @@ body {
 }
 
 /* bloco 1 */
-.hero {
+.bemvindo {
   height: 100vh;
   background: url('../assets/imgs/bem-vindo.png') no-repeat center/cover;
   display: flex;
@@ -122,7 +122,7 @@ body {
   margin-top: 0px;
 }
 
-/* .hero .overlay {
+/* .bemvindo .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -131,24 +131,24 @@ body {
   background: rgba(31, 25, 25, 0.5);
 } */
 
-.hero .conteudo {
+.bemvindo .conteudo {
   position: relative;
   text-align: center;
   color: white;
   z-index: 2;
 }
 
-.hero h1 {
+.bemvindo h1 {
   font-size: 48px;
   margin-bottom: 20px;
 }
 
-.hero p {
+.bemvindo p {
   font-size: 22px;
   margin-bottom: 30px;
 }
 
-.hero button {
+.bemvindo button {
   background-color: #f36a09;
   border: none;
   padding: 12px 28px;
@@ -162,7 +162,7 @@ body {
 
 }
 
-.hero button:hover {
+.bemvindo button:hover {
   background-color: #fff;
   color: #2A1110;
 }
