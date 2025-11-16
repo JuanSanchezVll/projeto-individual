@@ -185,7 +185,7 @@ body {
 }
 
 .bloco h2 {
-  color: #f36a09;
+  color: #ffffff;
   margin-bottom: 15px;
   font-size: 40px;
 }
@@ -194,6 +194,91 @@ body {
   font-size: 18px;
   color: #ccc;
   max-width: 600px;
+}
+
+.blococarrosel {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  border-top: 2px solid #222;
+  text-align: center;
+  padding: 40px 20px;
+
+}
+
+.blococarrosel h2 {
+  font-size: 40px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 10px;
+
+}
+
+
+
+/* BLOCO CLUBE */
+#clube.bloco-duplo {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  padding: 80px 8%;
+  min-height: 100vh;
+}
+
+/* COLUNAS IGUAIS */
+#clube .lado-esquerdo,
+#clube .lado-direito {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* IMAGEM */
+#clube .lado-esquerdo img {
+  width: 100%;
+  max-width: 550px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45);
+}
+
+/* TÍTULO */
+#clube .titulo {
+  font-size: 50px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* BARRA */
+#clube .linha {
+  width: 600px;
+  height: 4px;
+  background-color: #f36a09;
+  border-radius: 4px;
+  margin-bottom: 25px;
+}
+
+.conjunto-titulo {
+  margin-top: -130px;
+
+}
+
+/* TEXTO */
+#clube p {
+  font-size: 22px;
+  line-height: 1.7;
+  color: #ddd;
+  max-width: 600px;
+  margin-top: 25px;
+  text-align: justify;
+
 }
 
 /* Carrosel */
@@ -234,9 +319,6 @@ body {
     opacity: 0
   }
 }
-
-
-
 
 
 /* FOOTER */
