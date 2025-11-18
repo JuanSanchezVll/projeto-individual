@@ -117,7 +117,7 @@ body {
 /* bloco 1 */
 .bemvindo {
   height: 100vh;
-  background: url('../assets/imgs/bem-vindo.png') no-repeat center/cover;
+  background: url(../../assets/imgs/bem-vindo.png) no-repeat center/cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,7 +384,7 @@ body {
 
 .bloco-frase {
 
-  background-image: url(../assets/imgs/frase.jpg);
+  background-image: url(../../assets/imgs/frase.jpg);
   padding: 200px;
 
   height: 100vh;
@@ -553,7 +553,7 @@ body {
 
 /* CONTATO */
 .contato-bloco {
-  background-image: url(../assets/imgs/contato.jpg);
+  background-image: url(../../assets/imgs/contato.jpg);
   background-size: cover;
   background-position: center;
   padding: 80px 80px;
