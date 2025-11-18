@@ -83,7 +83,6 @@ body {
 .menu-center a:hover,
 .menu-center a.ativo {
   color: #f36a09;
-  /* text-decoration: underline; */
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
@@ -169,10 +168,6 @@ body {
   border-top: 2px solid #222;
   text-align: center;
   padding: 40px 20px;
-}
-
-.bloco:nth-child(even) {
-  background-color: #3d3b3b;
 }
 
 .bloco h2 {
@@ -280,7 +275,6 @@ body {
   margin-top: -130px;
 }
 
-/* TEXTO */
 #clube p {
   font-size: 22px;
   line-height: 1.5;
@@ -325,7 +319,6 @@ body {
 
 }
 
-/* Imagem verdadeira do Campori */
 #campori .lado-direito img {
   width: 100%;
   max-width: 550px;
@@ -334,7 +327,6 @@ body {
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45);
   margin-top: 60px;
 }
-
 
 /* TÍTULO */
 #campori .titulo {
@@ -426,9 +418,7 @@ body {
 
 }
 
-
 /* Carrosel */
-
 #img_carrosel {
   width: 100vh;
   height: 100%;
@@ -536,7 +526,6 @@ body {
   height: 170px;
   object-fit: cover;
   border-radius: 50%;
-  /* border: 1px solid #fff; */
   position: absolute;
   top: -80px;
   left: 50%;
@@ -565,12 +554,10 @@ body {
   background-position: center;
   padding: 80px 80px;
   height: 100vh;
-
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-
   border-top: 2px solid #222;
   color: white;
 }
@@ -624,7 +611,6 @@ body {
 .contato-bloco .col-esquerda input {
   width: 100%;
   padding: 12px 18px;
-  /* altura certinha */
   font-size: 18px;
   border-radius: 14px;
   border: none;
