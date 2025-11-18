@@ -74,7 +74,7 @@ body {
 }
 
 .menu-center a {
-  color: #e3b062;
+  color: #ffffff;
   text-decoration: none;
   font-weight: 600;
   transition: 0.3s;
@@ -82,7 +82,7 @@ body {
 
 .menu-center a:hover,
 .menu-center a.ativo {
-  color: #fff;
+  color: #f36a09;
   /* text-decoration: underline; */
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
@@ -181,7 +181,7 @@ body {
 }
 
 .bloco:nth-child(even) {
-  background-color: #1a1a1a;
+  background-color: #3d3b3b;
 }
 
 .bloco h2 {
@@ -202,7 +202,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #000000;
+  background-color: #ffffff;
   border-top: 2px solid #222;
   text-align: center;
   padding: 40px 20px;
@@ -216,8 +216,6 @@ body {
   margin-bottom: 10px;
 
 }
-
-
 
 /* BLOCO CLUBE */
 #clube.bloco-duplo {
@@ -250,9 +248,16 @@ body {
 
 /* TÍTULO */
 #clube .titulo {
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 800;
   color: #ffffff;
+  margin-bottom: 10px;
+}
+
+#carrosel .titulo {
+  font-size: 40px;
+  font-weight: 800;
+  color: #000000;
   margin-bottom: 10px;
 }
 
@@ -265,21 +270,179 @@ body {
   margin-bottom: 25px;
 }
 
+#carrosel .linha {
+  width: 600px;
+  height: 4px;
+  background-color: #f36a09;
+  border-radius: 4px;
+  margin-bottom: 25px;
+
+}
+
+#clube .conjunto-titulo {
+  margin-top: -130px;
+}
+
+/* TEXTO */
+#clube p {
+  font-size: 22px;
+  line-height: 1.5;
+  color: #ddd;
+  max-width: 600px;
+  margin-top: 8px;
+  text-align: justify;
+
+}
+
+
+/* BLOCO CAMPORI */
+
+/* Remover margin negativa no Campori */
+#campori .conjunto-titulo {
+  margin-top: 0;
+}
+
+#campori.bloco-duplo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  padding: 80px 8%;
+  min-height: 100vh;
+  background-color: #ffffff;
+
+}
+
+/* COLUNAS IGUAIS */
+#campori .lado-direito,
+#campori .lado-esquerdo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Forçar ordem certa */
+#campori .lado-esquerdo {
+  order: 1;
+  margin-left: -30px;
+
+}
+
+#campori .lado-direito {
+  order: 2;
+  margin-left: 25px;
+
+}
+
+/* Imagem verdadeira do Campori */
+#campori .lado-direito img {
+  width: 100%;
+  max-width: 550px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45);
+}
+
+
+/* TÍTULO */
+#campori .titulo {
+  font-size: 40px;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+#carrosel .titulo {
+  font-size: 40px;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+/* BARRA */
+#campori .linha {
+  width: 600px;
+  height: 4px;
+  background-color: #f36a09;
+  border-radius: 4px;
+  margin-bottom: 25px;
+}
+
+#carrosel .linha {
+  width: 600px;
+  height: 4px;
+  background-color: #f36a09;
+  border-radius: 4px;
+  margin-bottom: 25px;
+
+}
+
 .conjunto-titulo {
   margin-top: -130px;
 
 }
 
 /* TEXTO */
-#clube p {
+#campori p {
   font-size: 22px;
-  line-height: 1.7;
-  color: #ddd;
+  line-height: 1.5;
+  color: #000000;
   max-width: 600px;
-  margin-top: 25px;
+  margin-top: 8px;
   text-align: justify;
 
 }
+
+.bloco-frase {
+
+  background-image: url(../assets/imgs/frase.jpg);
+  padding: 200px;
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  border-top: 2px solid #222;
+  text-align: center;
+
+
+}
+
+.bloco-frase p {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 100;
+  margin-top: 20px;
+  text-align: left;
+  font-family: "Times New Roman", sans-serif;
+
+
+}
+
+.bloco-frase h2 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  text-align: left;
+  font-family: "Times New Roman", sans-serif;
+
+
+}
+
+
+
+
+
+
+
+
+
 
 /* Carrosel */
 
