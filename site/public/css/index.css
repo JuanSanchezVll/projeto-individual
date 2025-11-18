@@ -122,15 +122,6 @@ body {
   margin-top: 0px;
 }
 
-/* .bemvindo .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(31, 25, 25, 0.5);
-} */
-
 .bemvindo .conteudo {
   position: relative;
   text-align: center;
@@ -174,7 +165,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #000000;
+  background-color: #ffffff;
   border-top: 2px solid #222;
   text-align: center;
   padding: 40px 20px;
@@ -202,7 +193,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: #000000;
   border-top: 2px solid #222;
   text-align: center;
   padding: 40px 20px;
@@ -226,6 +217,7 @@ body {
   gap: 80px;
   padding: 80px 8%;
   min-height: 100vh;
+  background-color: white;
 }
 
 /* COLUNAS IGUAIS */
@@ -244,21 +236,26 @@ body {
   border-radius: 18px;
   object-fit: cover;
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45);
+  margin-top: 120px;
+  margin-left: 50px;
 }
 
 /* TÍTULO */
 #clube .titulo {
   font-size: 40px;
   font-weight: 800;
-  color: #ffffff;
+  color: #000000;
   margin-bottom: 10px;
+  margin-top: 170px;
+
 }
 
 #carrosel .titulo {
   font-size: 40px;
   font-weight: 800;
-  color: #000000;
+  color: #ffffff;
   margin-bottom: 10px;
+  margin-top: 40px;
 }
 
 /* BARRA */
@@ -287,19 +284,11 @@ body {
 #clube p {
   font-size: 22px;
   line-height: 1.5;
-  color: #ddd;
+  color: #000000;
   max-width: 600px;
   margin-top: 8px;
   text-align: justify;
 
-}
-
-
-/* BLOCO CAMPORI */
-
-/* Remover margin negativa no Campori */
-#campori .conjunto-titulo {
-  margin-top: 0;
 }
 
 #campori.bloco-duplo {
@@ -310,7 +299,7 @@ body {
   gap: 80px;
   padding: 80px 8%;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #000000;
 
 }
 
@@ -326,13 +315,13 @@ body {
 /* Forçar ordem certa */
 #campori .lado-esquerdo {
   order: 1;
-  margin-left: -30px;
+  margin-left: 10px;
 
 }
 
 #campori .lado-direito {
   order: 2;
-  margin-left: 25px;
+  margin-left: 50px;
 
 }
 
@@ -343,6 +332,7 @@ body {
   border-radius: 18px;
   object-fit: cover;
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45);
+  margin-top: 60px;
 }
 
 
@@ -350,14 +340,16 @@ body {
 #campori .titulo {
   font-size: 40px;
   font-weight: 800;
-  color: #000000;
+  color: #ffffff;
   margin-bottom: 10px;
+  margin-top: 100px;
+
 }
 
 #carrosel .titulo {
   font-size: 40px;
   font-weight: 800;
-  color: #000000;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 
@@ -384,11 +376,10 @@ body {
 
 }
 
-/* TEXTO */
 #campori p {
   font-size: 22px;
   line-height: 1.5;
-  color: #000000;
+  color: #ffffff;
   max-width: 600px;
   margin-top: 8px;
   text-align: justify;
@@ -414,7 +405,7 @@ body {
 
 .bloco-frase p {
   color: #fff;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 100;
   margin-top: 20px;
   text-align: left;
@@ -425,8 +416,8 @@ body {
 
 .bloco-frase h2 {
   color: #fff;
-  font-size: 24px;
-  font-weight: 300;
+  font-size: 28px;
+  font-weight: 100;
   line-height: 1.6;
   margin-bottom: 30px;
   text-align: left;
@@ -434,14 +425,6 @@ body {
 
 
 }
-
-
-
-
-
-
-
-
 
 
 /* Carrosel */
@@ -484,6 +467,213 @@ body {
 }
 
 
+/* VOZ DO CASTOR*/
+.voz-castor {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  border-top: 2px solid #222;
+  text-align: center;
+}
+
+.voz-castor h2 {
+  font-size: 40px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.voz-castor .linha {
+  width: 1000px;
+  height: 4px;
+  background-color: #f36a09;
+  border-radius: 4px;
+  margin-bottom: 25px;
+}
+
+.voz-castor .subtitulo {
+  font-size: 22px;
+  line-height: 1.5;
+  color: #ffffff;
+  max-width: 1000px;
+  margin-top: -10px;
+  text-align: justify;
+}
+
+/*Div card */
+.cards {
+  margin-top: 110px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 150px;
+}
+
+/* card */
+.card {
+  background: #fff;
+  width: 330px;
+  padding: 120px 20px 60px;
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  transition: transform .3s;
+  overflow: visible;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+/*FOTO*/
+.card .foto {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 50%;
+  /* border: 1px solid #fff; */
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* TEXTO DO CARD */
+.card h3 {
+  margin-top: -10px;
+  font-size: 22px;
+  color: #2b1b1b;
+}
+
+.card p {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #444;
+  line-height: 1.5;
+}
+
+
+/* CONTATO */
+.contato-bloco {
+  background-image: url(../assets/imgs/contato.jpg);
+  background-size: cover;
+  background-position: center;
+  padding: 80px 80px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  border-top: 2px solid #222;
+  color: white;
+}
+
+/* TÍTULO */
+.contato-bloco .conjunto-titulo {
+  width: 100%;
+  text-align: left;
+  max-width: 900px;
+  margin-bottom: 40px;
+  margin-left: 0;
+  margin-top: -40px;
+}
+
+.contato-bloco .conjunto-titulo h2 {
+  font-family: "Times New Roman", serif;
+  font-size: 55px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.contato-bloco .conjunto-titulo .linha {
+  width: 350px;
+  height: 4px;
+  background-color: #f36a09;
+  border-radius: 4px;
+}
+
+
+
+/* CONTAINER CENTRALIZADO */
+.contato-bloco .container-contato {
+  width: 100%;
+  max-width: 1300px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 50px;
+  margin-top: 10px;
+}
+
+/* COLUNA ESQUERDA */
+.contato-bloco .col-esquerda {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+/* INPUTS ESQUERDA */
+.contato-bloco .col-esquerda input {
+  width: 100%;
+  padding: 12px 18px;
+  /* altura certinha */
+  font-size: 18px;
+  border-radius: 14px;
+  border: none;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+/* COLUNA DIREITA */
+.contato-bloco .col-direita {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* TEXTAREA DIREITA */
+.contato-bloco .col-direita textarea {
+  width: 100%;
+  height: 79px;
+  padding: 18px;
+  font-size: 18px;
+  border-radius: 14px;
+  resize: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.contato-bloco .botao-enviar {
+  margin-top: 35px;
+  margin-left: 0;
+  padding: 8px;
+  background-color: #f36a09;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 130px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: bold;
+
+}
+
+.contato-bloco .botao-enviar:hover {
+  background-color: #fff;
+  color: #2A1110;
+}
+
+
 /* FOOTER */
 .footer {
   background-color: #000;
@@ -492,46 +682,3 @@ body {
   color: #bbb;
   font-size: 14px;
 }
-
-/* RESPONSIVIDADE */
-/* @media (max-width: 1024px) {
-  .menu-center {
-    gap: 18px;
-  }
-
-  .brand {
-    font-size: 22px;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .navbar {
-    order: 3;
-  }
-
-  .menu-right {
-    order: 2;
-  }
-
-  .logo-area {
-    order: 1;
-  }
-
-  .hero h1 {
-    font-size: 34px;
-  }
-
-  .hero p {
-    font-size: 18px;
-  }
-
-  .menu-center {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-} */
