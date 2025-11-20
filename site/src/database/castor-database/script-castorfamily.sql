@@ -2,6 +2,7 @@
 CREATE DATABASE castor;
 USE castor;
 
+-- _________________________________________________________________________________________________________
 CREATE TABLE unidade (
   id_unidade INT AUTO_INCREMENT PRIMARY KEY,
   nome_unidade VARCHAR(60) NOT NULL,
@@ -12,6 +13,7 @@ CREATE TABLE unidade (
   sexo ENUM('M','F','A') DEFAULT 'A'
 );
 
+
 INSERT INTO unidade (nome_unidade, descricao, qtd_membros, idade_min, idade_max, sexo) VALUES
 ('Diretoria', 'Equipe administrativa do clube', 0, NULL, NULL, 'A'),
 ('Guepardos', 'Unidade masculina - 10 a 13 anos', 0, 10, 13, 'M'),
@@ -19,9 +21,9 @@ INSERT INTO unidade (nome_unidade, descricao, qtd_membros, idade_min, idade_max,
 ('Panteras', 'Unidade feminina - 10 a 13 anos', 0, 10, 13, 'F'),
 ('Onças', 'Unidade feminina - 13 a 16 anos', 0, 13, 16, 'F');
 
-
 SELECT * FROM unidade;
 
+-- _________________________________________________________________________________________________________
 CREATE TABLE usuario (
   id_usuario INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(120) NOT NULL,
@@ -34,7 +36,6 @@ CREATE TABLE usuario (
   tipo_membro ENUM('DESBRAVADOR','DIRETORIA','VISITANTE','EX_MEMBRO') DEFAULT 'DESBRAVADOR',
   senha_hash VARCHAR(255) NOT NULL
 );
-
 
 INSERT INTO usuario (id_usuario, nome, dt_nasc, sexo, email, telefone, nome_responsavel, telefone_responsavel, tipo_membro, senha_hash) VALUES
 -- DIRETORIA (maiores de idade)
@@ -77,6 +78,7 @@ INSERT INTO usuario (id_usuario, nome, dt_nasc, sexo, email, telefone, nome_resp
 
 SELECT * FROM usuario;
 
+-- _________________________________________________________________________________________________________
 CREATE TABLE unidade_usuario (
   id_unidade_usuario INT AUTO_INCREMENT PRIMARY KEY,
   id_unidade INT NOT NULL,
@@ -132,7 +134,7 @@ INSERT INTO unidade_usuario (id_unidade, id_usuario, data_entrada) VALUES
 
 SELECT * FROM unidade_usuario;
 
-
+-- _________________________________________________________________________________________________________
 CREATE TABLE cargo (
   id_cargo INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(80) NOT NULL,
@@ -153,6 +155,7 @@ INSERT INTO cargo (id_cargo, nome, afazeres) VALUES
 
 SELECT * FROM cargo;
 
+-- _________________________________________________________________________________________________________
 CREATE TABLE cargo_usuario (
   id_cargo_usuario INT AUTO_INCREMENT PRIMARY KEY,
   fk_cargo INT NOT NULL,
@@ -185,7 +188,7 @@ ORDER BY c.id_cargo;
 
 SELECT * FROM cargo_usuario;
 
-
+-- _________________________________________________________________________________________________________
 CREATE TABLE especialidade (
   id_especialidade INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(100) NOT NULL,
@@ -206,7 +209,7 @@ INSERT INTO especialidade (id_especialidade, nome, categoria) VALUES
 
 SELECT * FROM especialidade;
 
-
+-- _________________________________________________________________________________________________________
 -- TABELA: info_especialidade (usa id_usuario)
 -- Cada desbravador terá pelo menos 3 especialidades
 -- Instrutor (da diretoria) será usado como instrutor nas linhas.
@@ -224,7 +227,6 @@ CREATE TABLE info_especialidade (
 
 -- 'Carlos Instrutor' (id 23) como o nome do instrutor para estes registros:
 -- Atribuir 3 especialidades por desbravador (usuários 3..18).
-
 INSERT INTO info_especialidade (id_usuario, id_especialidade, nivel, data_inclusao, instrutor) VALUES
 -- usuario 3 (Pietro) -> 1,2,3
 (3,1,'Completo','2024-03-01','Carlos Instrutor'),
@@ -313,7 +315,7 @@ JOIN usuario u ON ie.id_usuario = u.id_usuario
 JOIN especialidade e ON ie.id_especialidade = e.id_especialidade
 ORDER BY u.id_usuario, ie.id_especialidade;
 
-
+-- _________________________________________________________________________________________________________
 CREATE TABLE classe (
   id_classe INT AUTO_INCREMENT PRIMARY KEY,
   nome_classe VARCHAR(100) NOT NULL,
@@ -331,7 +333,7 @@ INSERT INTO classe (id_classe, nome_classe, idade_min, idade_max) VALUES
 
 SELECT * FROM classe;
 
-
+-- _________________________________________________________________________________________________________
 -- TABELA: usuario_classe — usa id_usuario
 -- 1 classe por usuario com base na idade calculada em 2024-02-01
 CREATE TABLE usuario_classe (
@@ -344,11 +346,6 @@ CREATE TABLE usuario_classe (
   FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) 
 );
 
--- Calculamos as idades em 01/02/2024 (mesma referência usada anteriormente)
--- Usando os valores de dt_nasc conhecidos, inserimos a classe correspondente àquela idade:
--- mapeamento: 10->1, 11->2, 12->3, 13->4, 14->5, 15->6
-
--- Com base nos dt_nasc acima as inserções são:
 INSERT INTO usuario_classe (id_classe, id_usuario, data_inclusao) VALUES
 (2, 3, '2024-02-01'),  -- Pietro (idade 11) -> Companheiro
 (1, 4, '2024-02-01'),  -- Nicolas (idade 10) -> Amigo
@@ -375,6 +372,7 @@ JOIN classe c ON uc.id_classe = c.id_classe
 ORDER BY uc.id_usuario_classe;
 
 
+-- _________________________________________________________________________________________________________
 CREATE TABLE dados_quiz (
   id_dados_quiz INT AUTO_INCREMENT PRIMARY KEY,
   id_usuario INT NOT NULL,
@@ -392,30 +390,7 @@ INSERT INTO dados_quiz (id_usuario, qtd_acertos, qtd_erros, data_inclusao) VALUE
 SELECT * FROM dados_quiz;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- ___________________________________________________________________________________________________
-
 -- Unindo todas as tabelas
 SELECT 
     uu.id_unidade_usuario,
