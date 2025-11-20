@@ -3,7 +3,7 @@
 <img src="./site/public/assets/imgs/logo-castor.png" height="500px">
 
 
-> 🌟 *Unindo aprendizado e tecnologia em um só propósito.*
+> *Unindo aprendizado e tecnologia em um só propósito.*
 
 ![Status](https://img.shields.io/badge/status-em_desenvolvimento-yellow)
 ![Linguagem](https://img.shields.io/badge/linguagem-HTML%20%7C%20CSS%20%7C%20JS-blue)
@@ -11,7 +11,7 @@
 
 ---
 
-## 📖 **Descrição do Projeto**
+## **Descrição do Projeto**
 
 O **CastorFamily** é uma plataforma digital criada com o objetivo de **apresentar e promover o Clube de Desbravadores**, com foco especial no **Clube Castor**.  
 
@@ -21,23 +21,23 @@ Por meio de uma interface moderna e intuitiva, o **CastorFamily** aproxima novas
 
 ---
 
-## 🎯 **Objetivo Principal**
+## **Objetivo Principal**
 
 O principal propósito do **CastorFamily** é **inspirar e conectar pessoas à missão dos Desbravadores**, promovendo o engajamento e o desenvolvimento integral de jovens através de uma experiência digital educativa e significativa.
 
 ---
 
-## 🧭 **Funcionalidades**
+## **Funcionalidades**
 
-- 🦫 **Apresentação do Clube Castor** – conheça sua história, missão e princípios.  
-- 📘 **Aprendizado de Especialidades** – acesso a conteúdos e ferramentas de estudo.  
-- 💡 **Ambiente Interativo** – recursos que estimulam o desenvolvimento de habilidades.  
-- 🤝 **Integração entre Clubes** – suporte a outros clubes que queiram usar o sistema.  
-- 🧑‍💻 **Plataforma Online** – acessível e fácil de navegar, feita para desbravadores.  
+- **Apresentação do Clube Castor** – conheça sua história, missão e princípios.  
+- **Aprendizado de Especialidades** – acesso a conteúdos e ferramentas de estudo.  
+- **Ambiente Interativo** – recursos que estimulam o desenvolvimento de habilidades.  
+- **Integração entre Clubes** – suporte a outros clubes que queiram usar o sistema.  
+- **Plataforma Online** – acessível e fácil de navegar, feita para desbravadores.  
 
 ---
 
-## 👥 **Público-Alvo**
+## **Público-Alvo**
 
 - Jovens interessados em conhecer o movimento dos **Desbravadores**;  
 - **Membros ativos** que desejam fortalecer seus conhecimentos;  
@@ -45,18 +45,18 @@ O principal propósito do **CastorFamily** é **inspirar e conectar pessoas à m
 
 ---
 
-## 💻 **Tecnologias Utilizadas**
+## **Tecnologias Utilizadas**
 
 | Categoria | Tecnologias |
 |------------|--------------|
-| 🌐 Front-end | HTML5, CSS, JavaScript |
-| 🖥️ Back-end | Node.js, Express |
-| 🗄️ Banco de Dados | MySQL Server, MySQL Workbench |
-| ⚙️ Ferramentas | VSCode, Git, GitHub |
+| Front-end | HTML5, CSS, JavaScript |
+| Back-end | Node.js, Express |
+| Banco de Dados | MySQL Server, MySQL Workbench |
+| Ferramentas | VSCode, Git, GitHub |
 
 ---
 
-## 🦫 **Clube Castor – Aprender, Servir e Crescer!**
+## **Clube Castor – Aprender, Servir e Crescer!**
 
 > “A maior necessidade do mundo é de jovens que não se comprem nem se vendam; jovens cuja consciência seja tão
           fiel ao dever como a bússola é ao polo." <br>
@@ -64,10 +64,8 @@ O principal propósito do **CastorFamily** é **inspirar e conectar pessoas à m
 
 ---
 
-## 👨‍💻 **Autor**
+## **Autor**
 
-**Desenvolvido por:** Juan David Valle Sánchez <br>
-📧 *Entre em contato:* juan.vsanchez@sptech.school <br>
-🌐 https://github.com/JuanSanchezVll <br>
-
+* Desenvolvido por: Juan David Valle Sánchez <br>
+* contato: juan.vsanchez@sptech.school <br>
 ---

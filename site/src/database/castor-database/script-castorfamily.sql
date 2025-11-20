@@ -467,6 +467,3 @@ JOIN usuario u ON u.id_usuario = uu.id_usuario
 JOIN unidade un ON un.id_unidade = uu.id_unidade;
 
 SELECT * FROM vw_unidades;
-
-
-
