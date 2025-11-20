@@ -13,7 +13,6 @@ CREATE TABLE unidade (
   sexo ENUM('M','F','A') DEFAULT 'A'
 );
 
-
 INSERT INTO unidade (nome_unidade, descricao, qtd_membros, idade_min, idade_max, sexo) VALUES
 ('Diretoria', 'Equipe administrativa do clube', 0, NULL, NULL, 'A'),
 ('Guepardos', 'Unidade masculina - 10 a 13 anos', 0, 10, 13, 'M'),
@@ -166,8 +165,7 @@ CREATE TABLE cargo_usuario (
   FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario) 
 );
 
--- Atribuir cada cargo a um membro da diretoria (um por cargo)
--- IDs de diretoria: 1,2,19..26 (total 10 pessoas)
+-- IDs de diretoria: 1,2,19..26 (total 10 pessoas) cada diretoria possui um cargo
 INSERT INTO cargo_usuario (fk_cargo, fk_usuario, data_entrada) VALUES
 (1, 1, '2023-01-01'),  -- Diretor -> Juan
 (2,19, '2023-01-01'),  -- Diretor Associado -> Marcos Diretor
@@ -210,9 +208,8 @@ INSERT INTO especialidade (id_especialidade, nome, categoria) VALUES
 SELECT * FROM especialidade;
 
 -- _________________________________________________________________________________________________________
--- TABELA: info_especialidade (usa id_usuario)
--- Cada desbravador terá pelo menos 3 especialidades
--- Instrutor (da diretoria) será usado como instrutor nas linhas.
+-- Cada desbravador tem pelo menos 3 especialidades
+-- Instrutor (da diretoria) será usado como instrutor de todos
 CREATE TABLE info_especialidade (
   id_info INT AUTO_INCREMENT PRIMARY KEY,
   id_usuario INT NOT NULL,
@@ -225,8 +222,8 @@ CREATE TABLE info_especialidade (
   FOREIGN KEY (id_especialidade) REFERENCES especialidade(id_especialidade)
 );
 
--- 'Carlos Instrutor' (id 23) como o nome do instrutor para estes registros:
--- Atribuir 3 especialidades por desbravador (usuários 3..18).
+-- 'Carlos Instrutor' (id 23) 
+-- 3 especialidades por desbravador (usuários 3..18).
 INSERT INTO info_especialidade (id_usuario, id_especialidade, nivel, data_inclusao, instrutor) VALUES
 -- usuario 3 (Pietro) -> 1,2,3
 (3,1,'Completo','2024-03-01','Carlos Instrutor'),
@@ -334,8 +331,7 @@ INSERT INTO classe (id_classe, nome_classe, idade_min, idade_max) VALUES
 SELECT * FROM classe;
 
 -- _________________________________________________________________________________________________________
--- TABELA: usuario_classe — usa id_usuario
--- 1 classe por usuario com base na idade calculada em 2024-02-01
+-- cada usuario tera apenas uma classe
 CREATE TABLE usuario_classe (
   id_usuario_classe INT AUTO_INCREMENT PRIMARY KEY,
   id_classe INT NOT NULL,
@@ -371,7 +367,6 @@ JOIN usuario u ON uc.id_usuario = u.id_usuario
 JOIN classe c ON uc.id_classe = c.id_classe
 ORDER BY uc.id_usuario_classe;
 
-
 -- _________________________________________________________________________________________________________
 CREATE TABLE dados_quiz (
   id_dados_quiz INT AUTO_INCREMENT PRIMARY KEY,
@@ -388,7 +383,6 @@ INSERT INTO dados_quiz (id_usuario, qtd_acertos, qtd_erros, data_inclusao) VALUE
 (5, 9, 1, '2025-02-20');
 
 SELECT * FROM dados_quiz;
-
 
 -- ___________________________________________________________________________________________________
 -- Unindo todas as tabelas
