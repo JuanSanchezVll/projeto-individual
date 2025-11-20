@@ -448,3 +448,25 @@ FROM unidade_usuario uu
 JOIN usuario u ON uu.id_usuario = u.id_usuario
 JOIN unidade un ON uu.id_unidade = un.id_unidade
 ORDER BY un.nome_unidade, u.nome;
+
+
+-- _______________________________________________________
+-- VIEWS
+CREATE VIEW vw_diretoria AS
+SELECT u.nome, c.nome AS cargo, cu.data_entrada
+FROM cargo_usuario cu
+JOIN usuario u ON u.id_usuario = cu.fk_usuario
+JOIN cargo c ON c.id_cargo = cu.fk_cargo;
+
+SELECT * FROM vw_diretoria;
+
+CREATE VIEW vw_unidades AS
+SELECT un.nome_unidade, u.nome, uu.data_entrada
+FROM unidade_usuario uu
+JOIN usuario u ON u.id_usuario = uu.id_usuario
+JOIN unidade un ON un.id_unidade = uu.id_unidade;
+
+SELECT * FROM vw_unidades;
+
+
+
