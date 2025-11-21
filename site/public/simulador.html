@@ -7,6 +7,7 @@
     <title>Login - CastorFamily</title>
 
     <link rel="stylesheet" href="./css/site-institucional/index.css">
+    <link rel="stylesheet" href="./css/site-institucional/simulador.css">
     <script src="./js/sessao.js"></script>
 
 </head>
@@ -39,11 +40,36 @@
 
     </header>
 
-    <!-- bloco simulador -->
-    <section class="bloco" id="simulador">
-        <h2>Simulador</h2>
-        <p>Faça parte do sonho do 1° campori de um Desbravador</p>
-    </section>
+
+    <div class="container-simulador">
+
+        <!-- FORMULÁRIO ESQUERDO -->
+        <div class="box">
+            <h1>Ajude um Desbravador</h1>
+            <h2>Faça parte do sonho do 1° Campori</h2>
+
+            <label>Seu nome:</label>
+            <input type="text" id="input_nome" placeholder="Digite seu nome">
+
+            <label>Quantidade de desbravadores que deseja ajudar:</label>
+            <input type="number" id="input_qtd" placeholder="Ex: 3">
+
+            <label>Valor total que deseja doar (R$):</label>
+            <input type="number" id="input_valor" placeholder="Ex: 200">
+
+            <button onclick="calcularDoacao()">Simular</button>
+        </div>
+
+        <!-- RESULTADO DIREITO -->
+        <div class="box">
+            <h2>Meta do Projeto</h2>
+            <p>• 1 inscrição para o Campori = <b>R$ 500</b></p>
+            <p>• Ajude nossos jovens a viverem o maior evento do Clube!</p>
+
+            <div id="resultado_calculo"></div>
+        </div>
+
+    </div>
 
     <footer class="footer">
 
@@ -101,3 +127,110 @@
 </body>
 
 </html>
+
+<script>
+
+    const precoInscricao = 500;
+
+    // Vetor que armazenará valores de doações anteriores
+    let historicoDoacoes = [];
+
+
+    // FUNÇÃO: Validar campos
+    function validarCampos(nome, qtd, valor) {
+        if (nome.trim() === "" || qtd <= 0 || valor <= 0) {
+            return false;
+        }
+        return true;
+    }
+
+
+    // FUNÇÃO: Calcular valor por desbravador
+    function calcularValorPorPessoa(valorTotal, qtd) {
+        return valorTotal / qtd;
+    }
+
+
+    // FUNÇÃO: Encontrar maior ou menor valor já doado
+    function calcularMaiorValor(lista) {
+        let maior = lista[0];
+
+        for (let i = 1; i < lista.length; i++) {
+            if (lista[i] > maior) {
+                maior = lista[i];
+            }
+        }
+        return maior;
+    }
+
+    function calcularMenorValor(lista) {
+        let menor = lista[0];
+
+        for (let i = 1; i < lista.length; i++) {
+            if (lista[i] < menor) {
+                menor = lista[i];
+            }
+        }
+        return menor;
+    }
+
+
+    // FUNÇÃO PRINCIPAL
+    function calcularDoacao() {
+
+        // Coleta dos inputs
+        let nome = input_nome.value;
+        let qtd = Number(input_qtd.value);
+        let valor = Number(input_valor.value);
+
+        // Verificar se dados são válidos
+        if (!validarCampos(nome, qtd, valor)) {
+            alert("Por favor, preencha corretamente todos os campos.");
+            return;
+        }
+
+        // Recorde no vetor
+        historicoDoacoes.push(valor);
+
+        // Operações matemáticas
+        let valorPorPessoa = calcularValorPorPessoa(valor, qtd);
+        let valorNecessario = precoInscricao * qtd;
+        let percentual = (valor / valorNecessario) * 100;
+
+        // Condicional sobre progresso
+        let mensagemProgresso = "";
+        if (percentual >= 100) {
+            mensagemProgresso = "Parabéns! Você patrocinou todas as inscrições!";
+        } else if (percentual >= 50) {
+            mensagemProgresso = "Ótima ajuda! Você cobriu mais da metade!";
+        } else {
+            mensagemProgresso = "Toda ajuda faz diferença!";
+        }
+
+        // Laço de repetição para exibir todas as doações do vetor
+        let listaTexto = "";
+        for (let i = 0; i < historicoDoacoes.length; i++) {
+            listaTexto += `• R$ ${historicoDoacoes[i]}<br>`;
+        }
+
+        // Resultado 
+        resultado_calculo.innerHTML = `
+        <h3>Resultado da Simulação</h3>
+        <p><b>Nome:</b> ${nome}</p>
+        <p><b>Desbravadores ajudados:</b> ${qtd}</p>
+        <p><b>Valor total doado:</b> R$ ${valor}</p>
+        <p><b>Valor por desbravador:</b> R$ ${valorPorPessoa.toFixed(2)}</p>
+        <p><b>Percentual da meta atingido:</b> ${percentual.toFixed(1)}%</p>
+        <p><b>Status:</b> ${mensagemProgresso}</p>
+
+        <br>
+        <h3>Histórico de Doações</h3>
+        ${listaTexto}
+
+        <br>
+        <p><b>Maior doação:</b> R$ ${calcularMaiorValor(historicoDoacoes)}</p>
+        <p><b>Menor doação:</b> R$ ${calcularMenorValor(historicoDoacoes)}</p>`;
+
+    }
+
+</script>

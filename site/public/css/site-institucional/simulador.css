@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: 'Barlow', sans-serif;
+    background: #0d0d0d;
+    color: white;
+}
+
+.container-simulador {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 40px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.box {
+    width: 40%;
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #ff8c00;
+    box-shadow: 0 0 18px #ff8c0044;
+    min-height: 450px;
+    margin-top: 100px;
+}
+
+.box h1 {
+    color: #ff8c00;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.box h2 {
+    color: #ffd27f;
+    margin-bottom: 15px;
+}
+
+.box p {
+    margin-bottom: 10px;
+    color: #f2f2f2;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #ffd27f;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 2px solid #ff8c00;
+    background: #000;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #ffa533;
+    box-shadow: 0 0 10px #ffa53355;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ff8c00;
+    color: #000;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+button:hover {
+    background: #ffa533;
+    transform: scale(1.03);
+}
+
+#resultado_calculo {
+    margin-top: 25px;
+    background: #00000055;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ff8c00;
+    min-height: 120px;
+}

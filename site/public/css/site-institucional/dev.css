@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.html,
+body {
+    font-family: 'Barlow', sans-serif;
+}
+
+#dev {
+    width: 100%;
+    padding: 130px 0 80px 0;
+    background: #0A0A0A;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+}
+
+.dev-container {
+    width: 85%;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.dev-foto {
+    width: 35%;
+    aspect-ratio: 3/4;
+    background-image: url("../../assets/imgs/foto_juan.JPEG");
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    border: 3px solid #F58026;
+    box-shadow: 0 0 18px rgba(245, 128, 38, 0.35);
+}
+
+.dev-texto {
+    width: 55%;
+}
+
+.dev-texto h1 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #F58026;
+    margin-bottom: 8px;
+}
+
+.dev-texto h2 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.dev-texto p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e8e8e8;
+    margin-bottom: 18px;
+    text-align: justify;
+}
