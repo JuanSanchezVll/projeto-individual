@@ -4,26 +4,157 @@
     box-sizing: border-box;
 }
 
-.bloco {
+.html,
+body {
+    font-family: 'Barlow', sans-serif;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    z-index: 9999;
+    background: transparent;
+}
+
+.container-header {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+    margin-left: 27px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+
+.login {
+    width: 100%;
     height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: #000000;
-    border-top: 2px solid #222;
-    text-align: center;
-
+    align-items: center;
+    background-image: url("../../assets/imgs/login2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.bloco h2 {
-    color: #ffffff;
-    margin-bottom: 15px;
-    font-size: 40px;
+.card-login {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 520px;
+    padding: 45px;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid #F58026;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    backdrop-filter: blur(4px);
 }
 
-.bloco p {
+.card-login h2 {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.card-login p {
     font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 28px;
+}
+
+.formulario .campo {
+    margin-bottom: 20px;
+}
+
+.formulario label {
+    display: block;
+    font-size: 17px;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.formulario input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: 2px solid #333;
+    background-color: #ffffff;
+    color: #fff;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.formulario input:focus {
+    border-color: #F58026;
+    background-color: #1c1c1c;
+    outline: none;
+}
+
+
+.botao {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+
+    background: #F58026;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.botao:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+
+.login-cadastro {
+    text-align: center;
+    margin-top: 22px;
     color: #ccc;
-    max-width: 600px;
+}
+
+.login-cadastro a {
+    color: #F58026;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-cadastro a:hover {
+    text-decoration: underline;
+}
+
+
+.alerta_erro {
+    width: 100%;
+}
+
+.card_erro {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    background-color: #b90000;
+    border-radius: 6px;
+    font-size: 14px;
+    display: none;
 }

@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.html,
+body {
+    font-family: 'Barlow', sans-serif;
+    position: relative;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 10px 0;
+    z-index: 50;
+    backdrop-filter: blur(4px);
+}
+
+.container-header {
+    width: 90%;
+    height: 100px;
+    max-width: 1300px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 98px;
+    height: auto;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: -62px;
+
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.bg-blur {
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../assets/imgs/login.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+.card-cadastro {
+    width: 100%;
+    height: 90%;
+    max-width: 1100px;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 40px;
+    border-radius: 16px;
+    border: 2px solid #F58026;
+    color: #fff;
+    margin-top: 41px;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 32px;
+    color: #F58026;
+}
+
+.subtitulo {
+    text-align: center;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.forms-grid {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.form-box {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #F58026;
+    backdrop-filter: blur(3px);
+}
+
+.form-box h2 {
+    margin-bottom: 15px;
+    color: #F58026;
+}
+
+.full-width {
+    margin-top: 20px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+input,
+select {
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #F58026;
+    background: #ffffff;
+    color: #000000;
+}
+
+input::placeholder {
+    color: #00000088;
+}
+
+.botao {
+    width: 350px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #F58026;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: 0.3s;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.botao:hover {
+    background-color: #fff;
+    color: #2A1110;
+    cursor: pointer;
+}
+
+.cadastro-login {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.cadastro-login a {
+    color: #F58026;
+    font-weight: bold;
+}

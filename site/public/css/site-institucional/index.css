@@ -17,7 +17,6 @@ body {
   scroll-behavior: smooth;
 }
 
-/* CONTAINER BASE */
 .container {
   width: 90%;
   max-width: 1300px;
@@ -27,7 +26,6 @@ body {
   justify-content: space-between;
 }
 
-/* HEADER */
 .header {
   position: fixed;
   top: 0;
