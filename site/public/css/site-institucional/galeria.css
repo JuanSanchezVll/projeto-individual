@@ -4,9 +4,9 @@
     box-sizing: border-box;
 }
 
-.html,
+html,
 body {
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .galeria-container {
@@ -26,11 +26,13 @@ body {
     font-size: 50px;
     color: #F58026;
     margin-bottom: 10px;
+    margin-top: -90px;
 }
 
 .galeria-topo p {
     font-size: 20px;
     color: #ddd;
+    margin-top: -15px;
 }
 
 .galeria-setor {
@@ -57,7 +59,6 @@ body {
     border: 2px solid #F58026;
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 0 12px rgba(245, 128, 38, 0.3);
     transition: .3s ease;
 }
 
@@ -70,9 +71,6 @@ body {
 
 .foto:hover {
     transform: scale(1.04);
-    box-shadow: 0 0 20px rgba(245, 128, 38, 0.5);
+    cursor: pointer;
 }
 
-.foto:hover img {
-    filter: brightness(1.15);
-}

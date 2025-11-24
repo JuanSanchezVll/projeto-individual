@@ -2,7 +2,87 @@
 CREATE DATABASE castor;
 USE castor;
 
--- _________________________________________________________________________________________________________
+-- Tabelas Principais  _______________________________________________________________________________________________________________________________________________________
+CREATE TABLE usuario (
+  id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(120) NOT NULL,
+  dt_nasc DATE NOT NULL,
+  tipo_membro VARCHAR(100),
+  email VARCHAR(120) UNIQUE,
+  senha VARCHAR(255) NOT NULL,
+  sexo ENUM('M','F'),
+  id_cargo INT,
+  FOREIGN KEY (id_cargo) REFERENCES cargo(id_cargo),
+  id_unidade INT,
+  FOREIGN KEY (id_unidade) REFERENCES unidade(id_unidade),
+  id_classe INT,
+  FOREIGN KEY (id_classe) REFERENCES classe(id_classe),
+  imagem_perfil VARCHAR(255)
+);
+
+INSERT INTO usuari (nome, dt_nasc, tipo_membro, email, senha) VALUES 
+	('Juan', '2004-09-07', 'DESBRAVADOR', 'juan@email.com', 'teste123');
+
+CREATE TABLE especialidade (
+  id_especialidade INT AUTO_INCREMENT PRIMARY KEY,
+  nome_especialidade VARCHAR(100) NOT NULL,
+  categoria VARCHAR(100)
+);
+
+INSERT INTO especialidade (nome_especialidade, categoria) VALUES
+('Ordem Unida','Atividades Recreativas'),
+('Nós e Amarras','Atividades Recreativas'),
+('Acampamento','Atividades Recreativas'),
+('Cidadania Cristã','Atividades Missionárias'),
+('Intercessor','Atividades Missionárias'),
+('Evangelismo','Atividades Missionárias'),
+('Astronomia','Estudo da Natureza'),
+('Árvores','Estudo da Natureza'),
+('Répteis','Estudo da Natureza');
+
+CREATE TABLE usuario_especialidade (
+  id_usuario INT,
+  id_especialidade INT,
+  data_conquista DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id_usuario, id_especialidade),
+  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+  FOREIGN KEY (id_especialidade) REFERENCES especialidade(id_especialidade)
+);
+
+INSERT INTO usuario_especialidad (id_usuario, id_especialidade) VALUES
+ (1, 1);
+
+CREATE TABLE dados_quiz (
+  id_dados_quiz INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  id_especialidade INT NOT NULL,
+  qtd_acertos INT DEFAULT 0,
+  total_perguntas INT NOT NULL,
+  data_inclusao DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+  FOREIGN KEY (id_especialidade) REFERENCES especialidade(id_especialidade)
+);
+
+-- Tabelas restantes _______________________________________________________________________________________________________________________________________________
+CREATE TABLE cargo (
+  id_cargo INT AUTO_INCREMENT PRIMARY KEY,
+  nome_cargo VARCHAR(45) NOT NULL,
+  afazeres VARCHAR(255)
+);
+
+INSERT INTO cargo (nome_cargo) VALUES 
+('Diretor'),
+('D. Associado'),
+('Capelão'),
+('Secretário'),
+('Tesoureiro'),
+('Conselheiro'),
+('Instrutor'),
+('Coord. Atividades'),
+('Logística'),
+('Comunicação'),
+('N/A');
+
 CREATE TABLE unidade (
   id_unidade INT AUTO_INCREMENT PRIMARY KEY,
   nome_unidade VARCHAR(60) NOT NULL,
@@ -13,28 +93,87 @@ CREATE TABLE unidade (
   sexo ENUM('M','F','A') DEFAULT 'A'
 );
 
-INSERT INTO unidade (nome_unidade, descricao, qtd_membros, idade_min, idade_max, sexo) VALUES
+INSERT INTO unidade (nome_unidade) VALUES
+('Diretoria'),
+('Guepardos'),
+('Leões'),
+('Panteras'),
+('Onças'),
+('N/A');
+
+CREATE TABLE classe (
+  id_classe INT AUTO_INCREMENT PRIMARY KEY,
+  nome_classe VARCHAR(100) NOT NULL,
+  idade_min INT,
+  idade_max INT
+);
+
+INSERT INTO classe (nome_classe) VALUES
+('Amigo'),
+('Companheiro'),
+('Pesquisador'),
+('Pioneiro'),
+('Excursionista'),
+('Guia'),
+('N/A');
+
+
+-- Tabelas N:N __________________________________________________________________________________________________________________________________________________
+-- CREATE TABLE unidade_usuario (
+-- id_unidade_usuario INT AUTO_INCREMENT PRIMARY KEY,
+--  id_unidade INT NOT NULL,
+--  id_usuario INT NOT NULL,
+--  data_entrada DATE DEFAULT NULL,
+--  data_saida DATE DEFAULT NULL,
+--  conselheiro TINYINT(1) DEFAULT 0,
+--  conselheiro_associado TINYINT(1) DEFAULT 0,
+--  FOREIGN KEY (id_unidade) REFERENCES unidade(id_unidade),
+--  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+-- );
+
+-- CREATE TABLE cargo_usuario (
+-- id_cargo_usuario INT AUTO_INCREMENT PRIMARY KEY,
+--  fk_cargo INT NOT NULL,
+--  fk_usuario INT NOT NULL,
+--  data_entrada DATE,
+-- data_saida DATE DEFAULT NULL,
+--  FOREIGN KEY (fk_cargo) REFERENCES cargo(id_cargo),
+--  FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario) 
+-- );
+
+-- CREATE TABLE usuario_classe (
+-- id_usuario_classe INT AUTO_INCREMENT PRIMARY KEY,
+-- id_classe INT NOT NULL,
+-- id_usuario INT NOT NULL,
+-- data_inclusao DATE,
+-- data_saida DATE DEFAULT NULL,
+-- FOREIGN KEY (id_classe) REFERENCES classe(id_classe),
+-- FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) 
+-- );
+
+
+-- todos os dados __________________________________________________________________________________________________________________________________________________
+SELECT * FROM usuario;
+SELECT * FROM especialidade;
+SELECT * FROM usuario_especialidade;
+SELECT * FROM dados_quiz;
+SELECT * FROM cargo;
+SELECT * FROM unidade;
+SELECT * FROM classe;
+
+
+-- limpar usuarios ___________________________________________________________________________________________________________________________________________________
+TRUNCATE usuari;
+DESC usuari;
+
+
+-- Inserts de teste _______________________________________________________________________________________________________
+INSERT INTO unidad (nome_unidade, descricao, qtd_membros, idade_min, idade_max, sexo) VALUES
 ('Diretoria', 'Equipe administrativa do clube', 0, NULL, NULL, 'A'),
 ('Guepardos', 'Unidade masculina - 10 a 13 anos', 0, 10, 13, 'M'),
 ('Leões', 'Unidade masculina - 13 a 16 anos', 0, 13, 16, 'M'),
 ('Panteras', 'Unidade feminina - 10 a 13 anos', 0, 10, 13, 'F'),
 ('Onças', 'Unidade feminina - 13 a 16 anos', 0, 13, 16, 'F');
-
-SELECT * FROM unidade;
-
--- _________________________________________________________________________________________________________
-CREATE TABLE usuario (
-  id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(120) NOT NULL,
-  dt_nasc DATE NOT NULL,
-  sexo ENUM('M','F') NOT NULL,
-  email VARCHAR(120) UNIQUE,
-  telefone VARCHAR(25),
-  nome_responsavel VARCHAR(120),
-  telefone_responsavel VARCHAR(25),
-  tipo_membro ENUM('DESBRAVADOR','DIRETORIA','VISITANTE','EX_MEMBRO') DEFAULT 'DESBRAVADOR',
-  senha_hash VARCHAR(255) NOT NULL
-);
 
 INSERT INTO usuario (id_usuario, nome, dt_nasc, sexo, email, telefone, nome_responsavel, telefone_responsavel, tipo_membro, senha_hash) VALUES
 -- DIRETORIA (maiores de idade)
@@ -75,23 +214,7 @@ INSERT INTO usuario (id_usuario, nome, dt_nasc, sexo, email, telefone, nome_resp
 (25,'Paulo Logistica', '1986-04-08', 'M', 'paulo.logistica@example.com', '11977778888', NULL, NULL, 'DIRETORIA', 'hash_paulo_log_123'),
 (26,'Julia Comunicação', '1992-12-20', 'F', 'julia.comu@example.com', '11988889999', NULL, NULL, 'DIRETORIA', 'hash_julia_comu_123');
 
-SELECT * FROM usuario;
-
--- _________________________________________________________________________________________________________
-CREATE TABLE unidade_usuario (
-  id_unidade_usuario INT AUTO_INCREMENT PRIMARY KEY,
-  id_unidade INT NOT NULL,
-  id_usuario INT NOT NULL,
-  data_entrada DATE DEFAULT NULL,
-  data_saida DATE DEFAULT NULL,
-  conselheiro TINYINT(1) DEFAULT 0,
-  conselheiro_associado TINYINT(1) DEFAULT 0,
-  FOREIGN KEY (id_unidade) REFERENCES unidade(id_unidade),
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
-
--- DIRETORIA (id_unidade = 1)
-INSERT INTO unidade_usuario (id_unidade, id_usuario, data_entrada) VALUES
+INSERT INTO unidade_usuari (id_unidade, id_usuario, data_entrada) VALUES
 (1, 1, '2024-01-01'),  -- Juan (Diretoria)
 (1, 2, '2024-01-01'),  -- Isabella (Diretoria)
 (1,19, '2024-01-01'),  -- Marcos Diretor
@@ -131,15 +254,6 @@ INSERT INTO unidade_usuario (id_unidade, id_usuario, data_entrada) VALUES
 (5,17, '2024-02-01'),
 (5,18, '2024-02-01');
 
-SELECT * FROM unidade_usuario;
-
--- _________________________________________________________________________________________________________
-CREATE TABLE cargo (
-  id_cargo INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(80) NOT NULL,
-  afazeres VARCHAR(255)
-);
-
 INSERT INTO cargo (id_cargo, nome, afazeres) VALUES
 (1, 'Diretor', 'Responsável pela administração geral do clube'),
 (2, 'Diretor Associado', 'Auxilia a direção e supervisiona setores do clube'),
@@ -152,20 +266,7 @@ INSERT INTO cargo (id_cargo, nome, afazeres) VALUES
 (9, 'Logística', 'Materiais, equipamentos e transporte'),
 (10,'Comunicação', 'Fotos, redes e divulgação');
 
-SELECT * FROM cargo;
-
--- _________________________________________________________________________________________________________
-CREATE TABLE cargo_usuario (
-  id_cargo_usuario INT AUTO_INCREMENT PRIMARY KEY,
-  fk_cargo INT NOT NULL,
-  fk_usuario INT NOT NULL,
-  data_entrada DATE,
-  data_saida DATE DEFAULT NULL,
-  FOREIGN KEY (fk_cargo) REFERENCES cargo(id_cargo),
-  FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario) 
-);
-
--- IDs de diretoria: 1,2,19..26 (total 10 pessoas) cada diretoria possui um cargo
+-- IDs de diretoria: 1,2,19..26
 INSERT INTO cargo_usuario (fk_cargo, fk_usuario, data_entrada) VALUES
 (1, 1, '2023-01-01'),  -- Diretor -> Juan
 (2,19, '2023-01-01'),  -- Diretor Associado -> Marcos Diretor
@@ -184,15 +285,6 @@ JOIN cargo c ON cu.fk_cargo = c.id_cargo
 JOIN usuario u ON cu.fk_usuario = u.id_usuario
 ORDER BY c.id_cargo;
 
-SELECT * FROM cargo_usuario;
-
--- _________________________________________________________________________________________________________
-CREATE TABLE especialidade (
-  id_especialidade INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(100) NOT NULL,
-  categoria VARCHAR(100) NOT NULL
-);
-
 INSERT INTO especialidade (id_especialidade, nome, categoria) VALUES
 (1,'Nós e Amarras','Atividades Recreativas'),
 (2,'Resgate Básico','Ciência e Saúde'),
@@ -205,26 +297,8 @@ INSERT INTO especialidade (id_especialidade, nome, categoria) VALUES
 (9,'Música - Básico','Artes e Habilidades Manuais'),
 (10,'Computação - Básico','Atividades Profissionais');
 
-SELECT * FROM especialidade;
-
--- _________________________________________________________________________________________________________
 -- Cada desbravador tem pelo menos 3 especialidades
--- Instrutor (da diretoria) será usado como instrutor de todos
-CREATE TABLE info_especialidade (
-  id_info INT AUTO_INCREMENT PRIMARY KEY,
-  id_usuario INT NOT NULL,
-  id_especialidade INT NOT NULL,
-  nivel VARCHAR(50),
-  data_inclusao DATE,
-  instrutor VARCHAR(120),
-  observacao TEXT,
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-  FOREIGN KEY (id_especialidade) REFERENCES especialidade(id_especialidade)
-);
-
--- 'Carlos Instrutor' (id 23) 
--- 3 especialidades por desbravador (usuários 3..18).
-INSERT INTO info_especialidade (id_usuario, id_especialidade, nivel, data_inclusao, instrutor) VALUES
+INSERT INTO usuari_especialidade (id_usuario, id_especialidade, nivel, data_inclusao, instrutor) VALUES
 -- usuario 3 (Pietro) -> 1,2,3
 (3,1,'Completo','2024-03-01','Carlos Instrutor'),
 (3,2,'Em andamento','2024-03-01','Carlos Instrutor'),
@@ -312,14 +386,6 @@ JOIN usuario u ON ie.id_usuario = u.id_usuario
 JOIN especialidade e ON ie.id_especialidade = e.id_especialidade
 ORDER BY u.id_usuario, ie.id_especialidade;
 
--- _________________________________________________________________________________________________________
-CREATE TABLE classe (
-  id_classe INT AUTO_INCREMENT PRIMARY KEY,
-  nome_classe VARCHAR(100) NOT NULL,
-  idade_min INT,
-  idade_max INT
-);
-
 INSERT INTO classe (id_classe, nome_classe, idade_min, idade_max) VALUES
 (1,'Amigo',10,10),
 (2,'Companheiro',11,11),
@@ -327,20 +393,6 @@ INSERT INTO classe (id_classe, nome_classe, idade_min, idade_max) VALUES
 (4,'Pioneiro',13,13),
 (5,'Excursionista',14,14),
 (6,'Guia',15,15);
-
-SELECT * FROM classe;
-
--- _________________________________________________________________________________________________________
--- cada usuario tera apenas uma classe
-CREATE TABLE usuario_classe (
-  id_usuario_classe INT AUTO_INCREMENT PRIMARY KEY,
-  id_classe INT NOT NULL,
-  id_usuario INT NOT NULL,
-  data_inclusao DATE,
-  data_saida DATE DEFAULT NULL,
-  FOREIGN KEY (id_classe) REFERENCES classe(id_classe),
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) 
-);
 
 INSERT INTO usuario_classe (id_classe, id_usuario, data_inclusao) VALUES
 (2, 3, '2024-02-01'),  -- Pietro (idade 11) -> Companheiro
@@ -367,25 +419,14 @@ JOIN usuario u ON uc.id_usuario = u.id_usuario
 JOIN classe c ON uc.id_classe = c.id_classe
 ORDER BY uc.id_usuario_classe;
 
--- _________________________________________________________________________________________________________
-CREATE TABLE dados_quiz (
-  id_dados_quiz INT AUTO_INCREMENT PRIMARY KEY,
-  id_usuario INT NOT NULL,
-  qtd_acertos INT DEFAULT 0,
-  qtd_erros INT DEFAULT 0,
-  data_inclusao DATE,
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) 
-);
-
 INSERT INTO dados_quiz (id_usuario, qtd_acertos, qtd_erros, data_inclusao) VALUES
 (3, 8, 2, '2025-03-01'),
 (4, 7, 3, '2025-04-05'),
 (5, 9, 1, '2025-02-20');
 
-SELECT * FROM dados_quiz;
 
--- ___________________________________________________________________________________________________
--- Unindo todas as tabelas
+
+-- Selects de treino entre tabelas ___________________________________________________________________________________________________
 SELECT 
     uu.id_unidade_usuario,
     u.id_usuario,
@@ -408,7 +449,7 @@ JOIN unidade un
     ON uu.id_unidade = un.id_unidade
 ORDER BY uu.id_unidade_usuario ASC;
 
--- Listar apenas a Diretoria
+-- Listar Diretoria
 SELECT 
     u.id_usuario,
     u.nome,
@@ -450,8 +491,8 @@ JOIN unidade un ON uu.id_unidade = un.id_unidade
 ORDER BY un.nome_unidade, u.nome;
 
 
--- _______________________________________________________
--- VIEWS
+
+-- VIEWS _______________________________________________________
 CREATE VIEW vw_diretoria AS
 SELECT u.nome, c.nome AS cargo, cu.data_entrada
 FROM cargo_usuario cu
@@ -467,3 +508,21 @@ JOIN usuario u ON u.id_usuario = uu.id_usuario
 JOIN unidade un ON un.id_unidade = uu.id_unidade;
 
 SELECT * FROM vw_unidades;
+
+CREATE VIEW vw_usuarios_completo AS
+SELECT 
+    u.id_usuario,
+    u.nome AS nome_usuario,
+    u.dt_nasc,
+    u.tipo_membro,
+    u.email,
+    u.senha,
+    c.nome_cargo AS cargo,
+    un.nome_unidade AS unidade,
+    cl.nome_classe AS classe
+FROM usuario u
+LEFT JOIN cargo c ON u.id_cargo = c.id_cargo
+LEFT JOIN unidade un ON u.id_unidade = un.id_unidade
+LEFT JOIN classe cl ON u.id_classe = cl.id_classe;
+
+SELECT * FROM vw_usuarios_completo;

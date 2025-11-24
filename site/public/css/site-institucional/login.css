@@ -4,278 +4,160 @@
     box-sizing: border-box;
 }
 
+html,
 body {
-    font-family: 'Barlow', sans-serif;
-    background-color: #000;
-    color: white;
-    scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif !important;
 }
 
-/* CONTAINER BASE */
-.container {
-    width: 90%;
-    max-width: 1300px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* HEADER */
 .header {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.2) 100%);
     padding: 10px 0;
-    z-index: 10;
-    box-shadow: none;
-    backdrop-filter: none;
+    z-index: 9999;
+    background: transparent;
 }
 
-/* LOGO E TEXTO */
-.logo-area {
+.container-header {
     display: flex;
     align-items: center;
-    gap: 7px;
-
+    padding-left: 20px;
 }
 
 .logo {
-    width: 70px;
+    width: 100px;
     height: auto;
-    transform: scale(1.2);
-    transform-origin: center;
-}
-
-.brand {
-    font-size: 23px;
-    font-weight: 700;
-    color: white;
-    letter-spacing: 1px;
-}
-
-.brand span {
-    color: #f36a09;
-}
-
-/* MENU CENTRAL */
-.navbar {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
-
-.menu-center {
-    list-style: none;
-    display: flex;
-    gap: 25px;
-}
-
-.menu-center a {
-    color: #e3b062;
-    text-decoration: none;
-    font-weight: 600;
+    margin-left: 27px;
+    cursor: pointer;
     transition: 0.3s;
 }
 
-.menu-center a:hover,
-.menu-center a.ativo {
-    color: #fff;
-    text-decoration: underline;
+.logo:hover {
+    transform: scale(1.05);
 }
 
-/* LOGIN / CADASTRO */
-.menu-right {
-    list-style: none;
-    display: flex;
-    gap: 18px;
-}
 
-#login,
-#cadastro {
-    background-color: #f36a09;
-    padding: 6px 16px;
-    border-radius: 8px;
-    color: #fff;
-    font-weight: 700;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-#login:hover,
-#cadastro:hover {
-    background-color: #fff;
-    color: #2A1110;
-}
-
-/* ÁREA DO LOGIN */
 .login {
-    min-height: 100vh;
-    background: url('../assets/imgs/bg-jelly-fish-para-home.png') no-repeat center/cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 100px;
-    /* compensar header fixo */
-}
-
-.container-login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../../assets/imgs/login2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .card-login {
-    background-color: #e5e5e5;
-    color: #2A1110;
-    width: 400px;
-    border-radius: 15px;
-    padding: 40px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 520px;
+    padding: 45px;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid #f36a09;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    box-shadow: 0 0 20px rgba(243, 106, 9, 0.3);
+    text-align: left;
+    backdrop-filter: blur(4px);
 }
 
 .card-login h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
+    font-size: 40px;
+    font-weight: 700;
     color: #f36a09;
 }
 
-.card-login p {
-    margin-bottom: 25px;
-    color: #555;
+.subtitulo {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 28px;
 }
 
-.formulario {
+
+.formulario .campo {
+    margin-bottom: 20px;
+}
+
+.formulario label {
+    display: block;
+    font-size: 17px;
+    color: #ffd27f;
+    margin-bottom: 6px;
+}
+
+.formulario input {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.campo {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.campo label {
-    font-weight: 600;
-    color: #222;
-}
-
-.campo input {
-    border: 2px solid #f36a09;
+    padding: 14px;
     border-radius: 8px;
-    padding: 10px;
-    text-align: center;
-    font-size: 15px;
+    border: 2px solid #f36a09;
+    background: white;
+    color: #000000;
+    font-size: 16px;
+    transition: 0.3s ease;
 }
+
+.formulario input::placeholder {
+    color: #000000;
+}
+
+.formulario input:focus {
+    border: 2px solid #f36a09;
+    color: #000000;
+    outline: none;
+}
+
 
 .botao {
-    background-color: #f36a09;
-    color: white;
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
     border: none;
+    cursor: pointer;
     border-radius: 8px;
+    background: #f36a09;
+    color: #ffffff;
     font-size: 18px;
     font-weight: 700;
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
     transition: 0.3s;
 }
 
 .botao:hover {
     background-color: #fff;
-    color: #2A1110;
+    color: #000;
 }
 
-.loading-div {
-    display: none;
-    margin-top: 15px;
+
+.login-cadastro {
+    text-align: center;
+    margin-top: 22px;
+    color: #ffffff;
+    font-size: 15px;
 }
 
-.loading-div img {
-    width: 45px;
-    height: 45px;
+.login-cadastro a {
+    color: #F58026;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-/* SIMULADOR */
-
-.simulador {
-    color: white;
+.login-cadastro a:hover {
+    text-decoration: underline;
 }
 
-.simulador .container {
-    flex-direction: column;
-    overflow: scroll;
-    height: var(--tamanho-simulador);
+.alerta_erro {
+    width: 100%;
 }
 
-/* ALERTA */
-
-#alerta {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    color: black;
-}
-
-.mensagem-alarme {
-    background-color: white;
-    border-radius: 5px;
-    width: 300px;
-    height: 80px;
-    margin: 10px;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.mensagem-alarme h3 {
+.card_erro {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    background-color: #f36a09;
+    border-radius: 6px;
     font-size: 14px;
-    margin: 0;
-    color: black;
+    display: none;
 }
-
-.mensagem-alarme .informacao {
-    width: 66%;
-}
-
-.alarme-sino {
-    width: 48px;
-    height: 48px;
-    animation-name: bell;
-    animation-duration: 4s;
-    background-image: url('https://cdn-icons-png.flaticon.com/512/1157/1157000.png');
-    background-size: cover;
-    animation-iteration-count: infinite;
-}
-
-@keyframes bell {
-    0% {
-        transform: rotate(25deg)
-    }
-
-    25% {
-        transform: rotate(-25deg)
-    }
-
-    50% {
-        transform: rotate(25deg)
-    }
-
-    75% {
-        transform: rotate(-25deg)
-    }
-
-    100% {
-        transform: rotate(25deg)
-    }
-}
-

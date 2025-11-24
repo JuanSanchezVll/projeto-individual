@@ -1,0 +1,265 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Barlow', sans-serif;
+    background: #0c0c0c;
+    color: #fff;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100%;
+    background: #151515;
+    border-right: 3px solid #ff8c00;
+    padding: 30px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.usuario-info {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.foto-perfil-mini {
+    width: 90px;
+    height: 90px;
+    background: #222;
+    border-radius: 50%;
+    border: 1px solid #ff8c00;
+    background-size: cover;
+    background-position: center -5%;
+    background-repeat: no-repeat;
+}
+
+.nome-usuario {
+    font-size: 16px;
+    color: #ffd27f;
+    font-weight: 600;
+}
+
+.menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin-bottom: 200px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: 0.25s;
+    background: #1b1b1b;
+    border-left: 4px solid transparent;
+}
+
+.menu a:hover,
+.menu .ativo {
+    background: #ff8c00;
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+.btn-sair a {
+    display: block;
+    background: #8b0000;
+    padding: 12px;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.btn-sair a:hover {
+    background: #b30000;
+}
+
+.conteudo {
+    margin-left: 270px;
+    padding: 35px;
+}
+
+.titulo-pagina {
+    font-size: 36px;
+    color: #ff8c00;
+    font-weight: 700;
+    margin-top: -20px;
+}
+
+.p-pagina {
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.perfil-container {
+    height: 430px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    background: #141414;
+    padding: 30px 35px;
+    border-radius: 20px;
+    border: 2px solid #ff8c00;
+    margin-top: 10px;
+
+}
+
+.perfil-foto {
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.foto-grande {
+    width: 220px;
+    height: 220px;
+    background: #222;
+    border-radius: 50%;
+    border: 2px solid #ff8c00;
+    background-size: cover;
+    background-position: center -5%;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 15px #ff8c0033;
+}
+
+.btn-upload {
+    padding: 12px 22px;
+    background: #ff8c00;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.25s;
+    margin-top: 20px;
+}
+
+.btn-upload:hover {
+    background-color: #fff;
+    color: #2A1110;
+}
+
+.perfil-dados {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    min-width: 280px;
+}
+
+.subbloco {
+    height: 200px;
+    background: #1f1c1c;
+    border-radius: 18px;
+    padding: 15px;
+    margin-bottom: -10px;
+}
+
+.subbloco-pessoal {
+    height: 170px;
+    background: #1f1c1c;
+    border-radius: 18px;
+    padding: 15px;
+    margin-bottom: -10px;
+    margin-top: -12px;
+
+
+}
+
+.subbloco-pessoal h3 {
+    color: #ffd27f;
+    margin-bottom: 18px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.subbloco-pessoal p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #fff;
+}
+
+.subbloco h3 {
+    color: #ffd27f;
+    margin-bottom: 18px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.subbloco p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #fff;
+}
+
+.sem-especialidade {
+    color: #ffffff;
+}
+
+.titulo-especialidade {
+    margin-top: 20px;
+}
+
+.titulo-especialidade {
+    color: #ffd27f;
+    margin-bottom: 18px;
+}
+
+.cards-especialidades {
+    display: grid;
+    grid-template-columns: repeat(3, 160px);
+    gap: 25px;
+}
+
+.card-esp {
+    background: #1a1a1a;
+    padding: 18px;
+    border-radius: 14px;
+    border: 2px solid #ff8c00;
+    text-align: center;
+    transition: 0.25s;
+    box-shadow: 0 0 18px #ff8c0022;
+}
+
+.card-esp:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 25px #ff8c00aa;
+}
+
+.card-esp img {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 10px;
+}
+
+.card-esp span {
+    display: block;
+    color: #ffd27f;
+    font-size: 15px;
+    font-weight: 600;
+}

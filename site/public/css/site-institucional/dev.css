@@ -4,10 +4,11 @@
     box-sizing: border-box;
 }
 
-.html,
+html,
 body {
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
+
 
 #dev {
     width: 100%;
@@ -33,8 +34,7 @@ body {
     background-size: cover;
     background-position: center;
     border-radius: 16px;
-    border: 3px solid #F58026;
-    box-shadow: 0 0 18px rgba(245, 128, 38, 0.35);
+    border: 2px solid #F58026;
 }
 
 .dev-texto {
@@ -42,22 +42,25 @@ body {
 }
 
 .dev-texto h1 {
-    font-size: 40px;
+    font-size: 50px;
     font-weight: 800;
     color: #F58026;
-    margin-bottom: 8px;
+    margin-top: -100px;
+    margin-top: 30px;
 }
 
 .dev-texto h2 {
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
+
 
 .dev-texto p {
     font-size: 16px;
     line-height: 1.6;
     color: #e8e8e8;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    margin-top: 50px;
     text-align: justify;
 }

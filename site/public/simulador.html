@@ -8,15 +8,15 @@
 
     <link rel="stylesheet" href="./css/site-institucional/index.css">
     <link rel="stylesheet" href="./css/site-institucional/simulador.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script src="./js/sessao.js"></script>
 
 </head>
 
 <body>
 
-    <!-- navbar -->
     <header class="header">
-
         <div class="container">
             <div class="logo-area">
                 <img src="./assets/imgs/logo-castor.png" alt="Logo Castor" class="logo">
@@ -27,9 +27,8 @@
                     <li><a href="./index.html">Home</a></li>
                     <li><a href="./galeria.html">Galeria</a></li>
                     <li><a href="./simulador.html" class="ativo">Simulador</a></li>
-                    <li><a href="./desenvolvedor.html">Desenvolvedor</a></li>
+                    <li><a href="./dev.html">Desenvolvedor</a></li>
                     <li><a href="./index.html#contato">Contato</a></li>
-
                 </ul>
             </nav>
             <ul class="menu-right">
@@ -40,13 +39,15 @@
 
     </header>
 
-
     <div class="container-simulador">
+        <div class="galeria-topo">
+            <h2>Simulador</h2>
+            <p>Faça parte do sonho do 1° Campori</p>
+        </div>
 
-        <!-- FORMULÁRIO ESQUERDO -->
         <div class="box">
             <h1>Ajude um Desbravador</h1>
-            <h2>Faça parte do sonho do 1° Campori</h2>
+            <h2></h2>
 
             <label>Seu nome:</label>
             <input type="text" id="input_nome" placeholder="Digite seu nome">
@@ -55,23 +56,22 @@
             <input type="number" id="input_qtd" placeholder="Ex: 3">
 
             <label>Valor total que deseja doar (R$):</label>
-            <input type="number" id="input_valor" placeholder="Ex: 200">
+            <input type="number" id="input_valor" placeholder="Ex: R$200">
 
             <button onclick="calcularDoacao()">Simular</button>
         </div>
 
-        <!-- RESULTADO DIREITO -->
         <div class="box">
             <h2>Meta do Projeto</h2>
-            <p>• 1 inscrição para o Campori = <b>R$ 500</b></p>
-            <p>• Ajude nossos jovens a viverem o maior evento do Clube!</p>
+            <p>1 inscrição para o Campori = <b>R$ 500</b></p>
+            <p>Ajude nossos jovens a viverem o maior evento do Clube!</p>
 
             <div id="resultado_calculo"></div>
         </div>
 
     </div>
 
-    <footer class="footer">
+    <footer class="footer-simulador">
 
         <div class="container-footer-top">
             <div class="redes-sociais">
@@ -132,11 +132,8 @@
 
     const precoInscricao = 500;
 
-    // Vetor que armazenará valores de doações anteriores
     let historicoDoacoes = [];
 
-
-    // FUNÇÃO: Validar campos
     function validarCampos(nome, qtd, valor) {
         if (nome.trim() === "" || qtd <= 0 || valor <= 0) {
             return false;
@@ -144,14 +141,10 @@
         return true;
     }
 
-
-    // FUNÇÃO: Calcular valor por desbravador
     function calcularValorPorPessoa(valorTotal, qtd) {
         return valorTotal / qtd;
     }
 
-
-    // FUNÇÃO: Encontrar maior ou menor valor já doado
     function calcularMaiorValor(lista) {
         let maior = lista[0];
 
@@ -174,30 +167,23 @@
         return menor;
     }
 
-
-    // FUNÇÃO PRINCIPAL
     function calcularDoacao() {
 
-        // Coleta dos inputs
         let nome = input_nome.value;
         let qtd = Number(input_qtd.value);
         let valor = Number(input_valor.value);
 
-        // Verificar se dados são válidos
         if (!validarCampos(nome, qtd, valor)) {
             alert("Por favor, preencha corretamente todos os campos.");
             return;
         }
 
-        // Recorde no vetor
         historicoDoacoes.push(valor);
 
-        // Operações matemáticas
         let valorPorPessoa = calcularValorPorPessoa(valor, qtd);
         let valorNecessario = precoInscricao * qtd;
         let percentual = (valor / valorNecessario) * 100;
 
-        // Condicional sobre progresso
         let mensagemProgresso = "";
         if (percentual >= 100) {
             mensagemProgresso = "Parabéns! Você patrocinou todas as inscrições!";
@@ -207,13 +193,11 @@
             mensagemProgresso = "Toda ajuda faz diferença!";
         }
 
-        // Laço de repetição para exibir todas as doações do vetor
         let listaTexto = "";
         for (let i = 0; i < historicoDoacoes.length; i++) {
-            listaTexto += `• R$ ${historicoDoacoes[i]}<br>`;
+            listaTexto += `R$ ${historicoDoacoes[i]}<br>`;
         }
 
-        // Resultado 
         resultado_calculo.innerHTML = `
         <h3>Resultado da Simulação</h3>
         <p><b>Nome:</b> ${nome}</p>

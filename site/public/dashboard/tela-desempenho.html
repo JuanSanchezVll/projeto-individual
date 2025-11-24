@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desempenho - Castor Family</title>
+    <link rel="stylesheet" href="../css/dashboard/tela-desempenho.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body onload="initDesempenho()">
+
+    <aside class="sidebar">
+        <img src="" alt="">
+        <div class="usuario-info">
+            <div class="foto-perfil-mini" id="fotoMini" style="background-image: url('../assets/imgs/usuario.png')">
+            </div>
+            <span class="nome-usuario" id="nomeMini">Usuário</span>
+        </div>
+
+        <nav class="menu">
+            <a href="../dashboard/tela-perfil.html">Perfil</a>
+            <a href="../dashboard/tela-questoes.html">DesbravaQuiz</a>
+            <a href="../dashboard/tela-desempenho.html" class="ativo">Desempenho</a>
+        </nav>
+
+        <div class="btn-sair">
+            <a href="../index.html" onclick="limparSessao()">SAIR</a>
+        </div>
+    </aside>
+
+    <main class="conteudo">
+
+        <h1 class="titulo-pagina">Desempenho</h1>
+
+        <div class="kpi-container">
+            <div class="kpi">
+                <h3>Última Especialidade Conquistada</h3>
+                <span id="kpi1">-</span>
+            </div>
+            <div class="kpi">
+                <h3>Total de Quizzes Jogados</h3>
+                <span id="kpi2">-</span>
+            </div>
+            <div class="kpi">
+                <h3>Média Geral de Acertos (%)</h3>
+                <span id="kpi3">-</span>
+            </div>
+            <div class="kpi">
+                <h3>Acertos do Último Quiz</h3>
+                <span id="kpi4">-</span>
+            </div>
+        </div>
+
+        <div class="graficos-lado">
+            <div class="grafico-container">
+                <h2 class="grafico-titulo">Evolução de Acertos</h2>
+                <canvas id="graficoLinha"></canvas>
+            </div>
+
+            <div class="grafico-container">
+                <h2 class="grafico-titulo">Quizzes Jogados</h2>
+                <canvas id="graficoRosquinha"></canvas>
+            </div>
+        </div>
+
+        <div class="grafico-container-barras" style="margin-top: 40px; width: 100%;">
+            <h2 class="grafico-titulo">Acertos por Especialidade</h2>
+            <canvas id="graficoBarras"></canvas>
+        </div>
+
+    </main>
+
+    <script src="../js/sessao.js"></script>
+
+</body>
+
+</html>
+
+<script>
+
+    function initDesempenho() {
+        carregarUsuario();
+        carregarDesempenho();
+        carregarBarras();
+    }
+
+
+    function carregarUsuario() {
+        const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
+
+        if (!usuario) {
+            console.error("Usuário não encontrado no sessionStorage!");
+            return;
+        }
+
+        const nomeMini = document.getElementById("nomeMini");
+        const fotoMini = document.getElementById("fotoMini");
+
+        if (nomeMini && usuario.nome) {
+            nomeMini.innerText = `Olá ${usuario.nome.split(" ")[0]}!`;
+        }
+
+        const caminhoFoto = usuario.imagem_perfil
+            ? `/assets/${usuario.imagem_perfil}`
+            : `/assets/imgs/usuario.png`;
+
+        fotoMini.style.backgroundImage = `url('${caminhoFoto}')`;
+    }
+
+
+    function salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados) {
+        sessionStorage.setItem("DESENVOLVIMENTO_ULTIMO_QUIZ", JSON.stringify(ultimoQuiz));
+        sessionStorage.setItem("DESENVOLVIMENTO_RESUMO", JSON.stringify(resumo));
+        sessionStorage.setItem("DESENVOLVIMENTO_TODOS_RESULTADOS", JSON.stringify(todosResultados));
+    }
+
+    function obterDadosDesempenho() {
+        const ultimoQuiz = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_ULTIMO_QUIZ"));
+        const resumo = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_RESUMO"));
+        const todosResultados = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_TODOS_RESULTADOS"));
+        return { ultimoQuiz, resumo, todosResultados };
+    }
+
+
+    async function carregarDesempenho() {
+        const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
+        if (!usuario) {
+            console.error("Usuário não encontrado no sessionStorage!");
+            return;
+        }
+
+        try {
+
+            const [ultimoQuizRes, resumoRes, todosResultadosRes] = await Promise.all([
+                fetch(`/dadosQuiz/ultimo/${usuario.id}`),
+                fetch(`/dadosQuiz/resumo/${usuario.id}`),
+                fetch(`/dadosQuiz/listar/${usuario.id}`)
+            ]);
+
+            const ultimoQuiz = await ultimoQuizRes.json();
+            const resumo = await resumoRes.json();
+            const todosResultados = await todosResultadosRes.json();
+
+            salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados);
+
+            const usuarioSession = JSON.parse(sessionStorage.getItem("USUARIO_DADOS")) || {};
+            const ultEspecial = (usuarioSession.especialidades && usuarioSession.especialidades.length > 0)
+                ? usuarioSession.especialidades[usuarioSession.especialidades.length - 1].nome_especialidade
+                : "-";
+            document.getElementById("kpi1").innerText = ultEspecial;
+
+            const totalQuizzes = resumo.reduce((a, b) => a + (b.quizzes_jogados || 0), 0);
+            document.getElementById("kpi2").innerText = totalQuizzes;
+
+            let somaAcertos = resumo.reduce((a, b) => a + Number(b.total_acertos || 0), 0);
+            let somaPerguntas = resumo.reduce((a, b) => a + Number(b.total_perguntas || 0), 0);
+            let media = somaPerguntas > 0 ? ((somaAcertos / somaPerguntas) * 100).toFixed(1) : "0.0";
+            document.getElementById("kpi3").innerText = media + "%";
+
+            document.getElementById("kpi4").innerText = ultimoQuiz ? `${ultimoQuiz.qtd_acertos}/${ultimoQuiz.total_perguntas}` : "-";
+
+            const ctxLinha = document.getElementById("graficoLinha").getContext("2d");
+            if (window.graficoLinha instanceof Chart) window.graficoLinha.destroy();
+
+            const idEspParaLinha = ultimoQuiz ? ultimoQuiz.id_especialidade : (todosResultados[0] ? todosResultados[0].id_especialidade : null);
+            const resultadosLinha = idEspParaLinha ? todosResultados.filter(r => r.id_especialidade === idEspParaLinha) : [];
+            const labelsLinha = resultadosLinha.map((r, i) => `Quiz ${i + 1}`);
+            const dataLinha = resultadosLinha.map(r => Number(r.qtd_acertos));
+
+            window.graficoLinha = new Chart(ctxLinha, {
+                type: 'line',
+                data: {
+                    labels: labelsLinha,
+                    datasets: [{
+                        label: ultimoQuiz ? ultimoQuiz.nome_especialidade : (resultadosLinha[0] ? resultadosLinha[0].nome_especialidade : 'Especialidade'),
+                        data: dataLinha,
+                        borderColor: '#FF7F50',
+                        backgroundColor: 'rgba(255,127,80,0.2)',
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: '#FFD27F',
+                        pointBorderColor: '#FF7F50',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#ffffff',
+                                font: { size: 14 }
+                            }
+                        },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    interaction: { mode: 'nearest', intersect: false },
+
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Quizzes Jogados",
+                                color: "#ffffff",
+                                font: { size: 16, weight: 'bold' }
+                            },
+                            ticks: { color: '#ffffff' },
+                            grid: { color: '#333' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Acertos",
+                                color: "#ffffff",
+                                font: { size: 16, weight: 'bold' }
+                            },
+                            ticks: { color: '#ffffff' },
+                            grid: { color: '#333' },
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+
+            const ctxRosq = document.getElementById("graficoRosquinha").getContext("2d");
+            if (window.graficoRosquinha instanceof Chart) window.graficoRosquinha.destroy();
+
+            const labelsRosq = resumo.map(e => e.nome_especialidade);
+            const dataRosq = resumo.map(e => Number(e.quizzes_jogados));
+            const coresRosq = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+
+            window.graficoRosquinha = new Chart(ctxRosq, {
+                type: 'doughnut',
+                data: {
+                    labels: labelsRosq,
+                    datasets: [{
+                        data: dataRosq,
+                        backgroundColor: coresRosq.slice(0, labelsRosq.length),
+                        borderColor: '#121212',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#ffffff', font: { size: 14 }, usePointStyle: true, pointStyle: 'circle' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.label}: ${context.raw} quizzes`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        } catch (erro) {
+            console.error("Erro ao carregar desempenho:", erro);
+        }
+    }
+
+    function carregarBarras() {
+        const labelsBarras = ['Ordem Unida', 'Nós e Amarras', 'Futsal', 'Fogos e Fogões', 'Primeiros Socorros'];
+        const dataBarras = [7, 9, 5, 6, 8];
+        const coresBarras = ['#4BC0C0', '#36A2EB', '#FFCE56', '#FF6384', '#9966FF'];
+
+        const ctxBarras = document.getElementById("graficoBarras").getContext("2d");
+
+        new Chart(ctxBarras, {
+            type: 'bar',
+            data: {
+                labels: labelsBarras,
+                datasets: [{
+                    label: 'Acertos',
+                    data: dataBarras,
+                    backgroundColor: coresBarras,
+                    borderColor: '#121212',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: '#ffffff',
+                            font: { size: 14 }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Especialidades',
+                            color: '#ffffff',
+                            font: { size: 16 }
+                        },
+                        ticks: { color: '#ffffff' },
+                        grid: { color: '#333' }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Acertos',
+                            color: '#ffffff',
+                            font: { size: 16 }
+                        },
+                        ticks: { color: '#ffffff' },
+                        grid: { color: '#333' },
+                        beginAtZero: true,
+                        suggestedMax: 10
+                    }
+                }
+            }
+        });
+    }
+
+</script>

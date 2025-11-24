@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesbravaQuiz</title>
+    <link rel="stylesheet" href="../css/dashboard/tela-questoes.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <img src="" alt="">
+
+        <div class="usuario-info">
+            <div class="foto-perfil-mini" id="fotoMini" style="background-image: url('../assets/imgs/usuario.png')">
+            </div>
+            <span class="nome-usuario" id="nomeMini">Olá Usuário!</span>
+        </div>
+
+        <nav class="menu">
+            <a href="../dashboard/tela-perfil.html">Perfil</a>
+            <a href="../dashboard/tela-questoes.html" class="ativo">DesbravaQuiz</a>
+            <a href="../dashboard/tela-desempenho.html">Desempenho</a>
+        </nav>
+
+        <div class="btn-sair">
+            <a href="../index.html" onclick="limparSessao()">SAIR</a>
+        </div>
+    </aside>
+
+    <div class="conteudo" id="telaCategorias">
+
+        <h1 class="titulo-pagina">DESBRAVAQUIZ</h1>
+        <p class="p-class">Escolha a categoria da especialidade que deseja ganhar</p>
+
+        <div class="categorias-container">
+
+            <div class="categoria-card">
+                <div class="categoria-topo">
+                    <div class="categoria-img">
+                        <img src="../assets/icones/dashboard/1.jpeg" alt="">
+                    </div>
+                    <h2 class="categoria-nome">Atividades Recreativas</h2>
+                </div>
+
+                <div class="especialidades-lista">
+
+                    <div class="especialidade clicavel" onclick="iniciarQuiz(1)">
+                        <div class="esp-img">
+                            <img src="../assets/icones/dashboard/ordem-unida.webp">
+                        </div>
+                        <span>Ordem Unida</span>
+                    </div>
+
+                    <div class="especialidade clicavel" onclick="iniciarQuiz(2)">
+                        <div class="esp-img">
+                            <img src="../assets/icones/dashboard/nos-amarras.webp">
+                        </div>
+                        <span>Nós e Amarras</span>
+                    </div>
+
+                    <div class="especialidade">
+                        <div class="esp-img">
+                            <img src="../assets/icones/dashboard/acampamento.webp">
+                        </div>
+                        <span>Acampamento</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="categoria-card">
+                <div class="categoria-topo">
+                    <div class="categoria-img">
+                        <img src="../assets/icones/dashboard/2.jpeg" alt="">
+                    </div>
+                    <h2 class="categoria-nome">Atividades Missionárias</h2>
+                </div>
+
+                <div class="especialidades-lista">
+                    <div class="especialidade">
+                        <div class="esp-img"><img src="../assets/icones/dashboard/missionarias.png"></div>
+                        <span>Cidadania Cristã</span>
+                    </div>
+
+                    <div class="especialidade">
+                        <div class="esp-img"><img src="../assets/icones/dashboard/missionarias2.png"></div>
+                        <span>Intercessor</span>
+                    </div>
+
+                    <div class="especialidade">
+                        <div class="esp-img"><img src="../assets/icones/dashboard/missionarias2.webp"></div>
+                        <span>Evangelismo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="categoria-card">
+                <div class="categoria-topo">
+                    <div class="categoria-img">
+                        <img src="../assets/icones/dashboard/3.jpeg" alt="">
+                    </div>
+                    <h2 class="categoria-nome">Estudo da Natureza</h2>
+                </div>
+
+                <div class="especialidades-lista">
+                    <div class="especialidade">
+                        <div class="esp-img"><img src="../assets/icones/dashboard/astronomia.png"></div>
+                        <span>Astronomia</span>
+                    </div>
+
+                    <div class="especialidade">
+                        <div class="esp-img"><img src="../assets/icones/dashboard/arvores.webp"></div>
+                        <span>Árvores</span>
+                    </div>
+
+                    <div class="especialidade">
+                        <div class="esp-img"><img src="../assets/icones/dashboard/repteis.webp"></div>
+                        <span>Répteis</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="quiz-container" id="telaQuiz" style="display:none;">
+
+        <h1 class="quiz-titulo">Especialidade: Ordem Unida</h1>
+
+        <div id="areaPergunta"></div>
+
+        <div class="quiz-botoes">
+            <button id="btnVoltar" onclick="voltar()">Voltar</button>
+            <button id="btnAvancar" onclick="avancar()">Avançar</button>
+            <button id="btnSubmeter" onclick="finalizarQuiz()" style="display:none;">Submeter</button>
+        </div>
+
+        <button class="btn-voltar-categorias" onclick="voltarCategorias()">Voltar para Categorias</button>
+
+    </div>
+
+    <div id="resultadoFinal" class="resultado-final" style="display:none;"></div>
+
+    <div id="listaEspecialidades"></div>
+
+</body>
+
+</html>
+
+
+<script>
+
+    carregarUsuario();
+
+    function carregarUsuario() {
+        const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
+        if (!usuario) return;
+
+        const nomeMini = document.getElementById("nomeMini");
+        const fotoMini = document.getElementById("fotoMini");
+
+        if (nomeMini && usuario.nome) {
+            nomeMini.innerText = `Olá ${usuario.nome.split(" ")[0]}!`;
+        }
+
+        const caminhoFoto = usuario.imagem_perfil
+            ? `/assets/${usuario.imagem_perfil}`
+            : `/assets/imgs/usuario.png`;
+
+        fotoMini.style.backgroundImage = `url('${caminhoFoto}')`;
+    }
+
+
+    const perguntas = [
+
+        {
+            enunciado: "1. O que é Ordem Unida?",
+            alternativas: {
+                a: "Um conjunto de movimentos organizados padronizados",
+                b: "A forma de organizar equipes em acampamento",
+                c: "Um tipo de marcha utilizada apenas no exército"
+            },
+            correta: "a"
+        },
+        {
+            enunciado: "2. Para que serve a Ordem Unida?",
+            alternativas: {
+                a: "Dar disciplina, coordenação e ritmo ao grupo",
+                b: "Apenas para apresentações públicas",
+                c: "Para treinar corrida"
+            },
+            correta: "a"
+        },
+        {
+            enunciado: "3. O comando 'Sentido!' significa:",
+            alternativas: {
+                a: "Ficar imóvel em posição de atenção",
+                b: "Descansar no lugar",
+                c: "Virar à direita"
+            },
+            correta: "a"
+        },
+        {
+            enunciado: "4. O comando 'Esquerda VOLVER!' significa:",
+            alternativas: {
+                a: "Meia-volta",
+                b: "Virar à esquerda em 90°",
+                c: "Virar à direita"
+            },
+            correta: "b"
+        },
+        {
+            enunciado: "5. O comando 'Ordem unida, marcha!' significa:",
+            alternativas: {
+                a: "Iniciar deslocamento marchando",
+                b: "Correr lentamente",
+                c: "Parar imediatamente"
+            },
+            correta: "a"
+        }
+    ];
+
+
+    let perguntaAtual = 0;
+    let acertos = 0;
+    let respostas = {};
+    let idEspecialidadeAtual = 1;
+
+
+    function iniciarQuiz(idEsp) {
+        idEspecialidadeAtual = idEsp;
+        perguntaAtual = 0;
+        respostas = {};
+
+        document.getElementById("telaCategorias").style.display = "none";
+        document.getElementById("telaQuiz").style.display = "block";
+
+        carregarPergunta();
+    }
+
+
+    function carregarPergunta() {
+        const p = perguntas[perguntaAtual];
+
+        let html = `
+            <h2>${p.enunciado}</h2>
+            <div class="alternativas">
+        `;
+
+        for (let letra in p.alternativas) {
+            html += `
+                <label class="alternativa">
+                    <input type="radio" name="alt" value="${letra}"
+                    ${respostas[perguntaAtual] === letra ? "checked" : ""}>
+                    ${letra.toUpperCase()}) ${p.alternativas[letra]}
+                </label>
+            `;
+        }
+
+        html += "</div>";
+
+        document.getElementById("areaPergunta").innerHTML = html;
+
+        document.getElementById("btnAvancar").style.display = perguntaAtual === perguntas.length - 1 ? "none" : "block";
+        document.getElementById("btnSubmeter").style.display = perguntaAtual === perguntas.length - 1 ? "block" : "none";
+    }
+
+
+    function avancar() {
+        const selecionada = document.querySelector("input[name='alt']:checked");
+        if (!selecionada) return alert("Selecione uma alternativa!");
+
+        respostas[perguntaAtual] = selecionada.value;
+
+        perguntaAtual++;
+        carregarPergunta();
+    }
+
+
+    function voltar() {
+        if (perguntaAtual === 0) {
+            voltarCategorias();
+            return;
+        }
+
+        perguntaAtual--;
+        carregarPergunta();
+    }
+
+
+    function voltarCategorias() {
+        perguntaAtual = 0;
+        respostas = {};
+        acertos = 0;
+
+        document.getElementById("telaCategorias").style.display = "block";
+        document.getElementById("telaQuiz").style.display = "none";
+        document.getElementById("resultadoFinal").style.display = "none";
+    }
+
+
+    function salvarEspecialidade(idEspecialidade) {
+        const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
+        if (!usuario || !usuario.id) return;
+
+        fetch("/especialidade/ganhar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idUsuario: usuario.id,
+                idEspecialidade
+            })
+        })
+            .then(r => r.json())
+            .then(resp => {
+                console.log("Especialidade salva:", resp);
+
+                const dados = JSON.parse(sessionStorage.getItem("USUARIO_DADOS")) || {};
+                if (!dados.especialidades) dados.especialidades = [];
+
+                const jaTem = dados.especialidades.some(e => Number(e.id_especialidade) === Number(idEspecialidade));
+                if (!jaTem) {
+                    dados.especialidades.push({
+                        id_especialidade: idEspecialidade,
+                        nome_especialidade: "Ordem Unida"
+                    });
+                    sessionStorage.setItem("USUARIO_DADOS", JSON.stringify(dados));
+                }
+            })
+            .catch(err => console.error("Erro ao salvar especialidade:", err));
+    }
+
+
+    function finalizarQuiz() {
+        const selecionada = document.querySelector("input[name='alt']:checked");
+        if (!selecionada) return alert("Selecione uma alternativa!");
+
+        respostas[perguntaAtual] = selecionada.value;
+        acertos = perguntas.filter((p, i) => respostas[i] === p.correta).length;
+
+        const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
+        if (!usuario || !usuario.id) {
+            console.error("Usuário não encontrado no sessionStorage!");
+            return;
+        }
+
+
+        fetch("/dadosQuiz/registrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idUsuario: usuario.id,
+                idEspecialidade: idEspecialidadeAtual || 1,
+                qtdAcertos: acertos,
+                totalPerguntas: perguntas.length
+            })
+        })
+            .then(r => r.json())
+            .then(data => {
+                console.log("Resultado salvo no backend:", data);
+
+                sessionStorage.removeItem("DESENVOLVIMENTO_ULTIMO_QUIZ");
+                sessionStorage.removeItem("DESENVOLVIMENTO_RESUMO");
+                sessionStorage.removeItem("DESENVOLVIMENTO_TODOS_RESULTADOS");
+
+                sessionStorage.setItem("QUIZ_DADOS", JSON.stringify({ respostas, perguntaAtual, acertos }));
+
+
+            })
+            .catch(err => {
+                console.error("Erro ao registrar o resultado do quiz:", err);
+            });
+
+        document.getElementById("telaQuiz").style.display = "none";
+        const div = document.getElementById("resultadoFinal");
+
+        if (acertos >= 3) {
+            div.innerHTML = `
+            <h2>Meus Parabéns!!</h2>
+            <p>Você acertou <strong>${acertos}</strong> de ${perguntas.length}!</p>
+            <p>Você ganhou a especialidade de Ordem Unida!</p>
+            <button id="btnPerfil">Ir para o perfil</button>
+        `;
+
+            salvarEspecialidade(idEspecialidadeAtual || 1);
+
+            document.getElementById("btnPerfil").onclick = () => {
+                window.location.href = "tela-perfil.html";
+            };
+        } else {
+            div.innerHTML = `
+            <h2>Boa tentativa!</h2>
+            <p>Você acertou <strong>${acertos}</strong> de ${perguntas.length}.</p>
+            <p>Continue tentando, você consegue!</p>
+            <button onclick="voltarCategorias()">Tentar novamente</button>
+        `;
+
+        }
+
+        div.style.display = "block";
+    }
+
+</script>

@@ -1,28 +1,72 @@
-var database = require("../database/config")
+var database = require("../database/config");
 
-function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
-    var instrucaoSql = `
-        SELECT id, nome, email, fk_empresa as empresaId FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+function cadastrar(usuario) {
+    const instrucaoSql = `
+        INSERT INTO usuario
+        (nome, dt_nasc, tipo_membro, email, senha, id_cargo, id_unidade, id_classe)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, [
+        usuario.nome,
+        usuario.dt_nasc,
+        usuario.tipo_membro,
+        usuario.email,
+        usuario.senha,
+        usuario.id_cargo,
+        usuario.id_unidade,
+        usuario.id_classe
+    ]);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(cpf, nome, email, senha, fkEmpresa) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha, fkEmpresa);
-
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
-    var instrucaoSql = `
-        INSERT INTO usuario (nome, email, senha, fk_empresa, cpf) VALUES ('${nome}', '${email}', '${senha}', '${fkEmpresa}', ${cpf});
+function autenticar(email, senha) {
+    const instrucaoSql = `
+        SELECT 
+            id_usuario AS id,
+            nome,
+            email,
+            imagem_perfil,
+            tipo_membro,
+            id_cargo,
+            id_unidade,
+            id_classe,
+            dt_nasc
+        FROM usuario 
+        WHERE email = ? AND senha = ?;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+
+    return database.executar(instrucaoSql, [email, senha]);
+}
+
+
+function buscarPerfil(idUsuario) {
+    const instrucaoSql = `
+        SELECT 
+            id_usuario AS id,
+            nome,
+            dt_nasc,
+            tipo_membro,
+            id_cargo,
+            id_unidade,
+            id_classe,
+            imagem_perfil
+        FROM usuario
+        WHERE id_usuario = ?;
+    `;
+    return database.executar(instrucaoSql, [idUsuario]);
+}
+
+function salvarFoto(idUsuario, nomeArquivo) {
+    const instrucaoSql = `
+        UPDATE usuario
+        SET imagem_perfil = ?
+        WHERE id_usuario = ?;
+    `;
+    return database.executar(instrucaoSql, [nomeArquivo, idUsuario]);
 }
 
 module.exports = {
+    cadastrar,
     autenticar,
-    cadastrar
+    buscarPerfil,
+    salvarFoto
 };
