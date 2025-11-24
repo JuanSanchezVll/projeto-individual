@@ -2,12 +2,8 @@
 node_modules
 package-lock.json
 
-# Ignorar a pasta .github (configurações específicas de actions, etc)
-.github/
+github/
 
-# Ignorar arquivos .env (variáveis de ambiente, credenciais sensíveis)
-.env
-.env.dev
-
-# Ignorar a pasta .vscode (configurações pessoais do VS Code)
-.vscode/
+env
+env.dev
+vscode/
