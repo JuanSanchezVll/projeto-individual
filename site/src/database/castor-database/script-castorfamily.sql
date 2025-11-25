@@ -152,6 +152,18 @@ INSERT INTO classe (nome_classe) VALUES
 -- );
 
 
+SELECT 
+            id_usuario AS id,
+            nome,
+            dt_nasc,
+            tipo_membro,
+            id_cargo,
+            id_unidade,
+            id_classe,
+            imagem_perfil
+        FROM usuario
+        WHERE id_usuario = 4;
+
 -- todos os dados __________________________________________________________________________________________________________________________________________________
 SELECT * FROM usuario;
 SELECT * FROM especialidade;
@@ -164,7 +176,7 @@ SELECT * FROM classe;
 
 -- limpar usuarios ___________________________________________________________________________________________________________________________________________________
 TRUNCATE usuari;
-DESC usuari;
+DESC usuario;
 
 
 -- Inserts de teste _______________________________________________________________________________________________________
