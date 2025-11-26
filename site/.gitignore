@@ -4,6 +4,6 @@ package-lock.json
 
 github/
 
-env
-env.dev
+.env
+.env.dev
 vscode/
