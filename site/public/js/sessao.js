@@ -1,4 +1,3 @@
-// ===================== SESSÃO DO USUÁRIO ===================== //
 function validarSessao() {
     const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
     if (!usuario) {
@@ -10,13 +9,11 @@ function validarSessao() {
     if (elementoNome) elementoNome.innerText = usuario.nome;
 }
 
-// ===================== LOGOUT ===================== //
 function limparSessao() {
     sessionStorage.clear();
     window.location = "../login.html";
 }
 
-// ===================== LOADING ===================== //
 function aguardar() {
     const divAguardar = document.getElementById("div_aguardar");
     if (divAguardar) divAguardar.style.display = "flex";
@@ -33,7 +30,6 @@ function finalizarAguardar(texto) {
     }
 }
 
-// ===================== FUNÇÃO AUXILIAR IDADE ===================== //
 function calcularIdade(dataNasc) {
     if (!dataNasc) return "-";
     const hoje = new Date();
@@ -44,19 +40,17 @@ function calcularIdade(dataNasc) {
     return idade;
 }
 
-// ===================== CARREGAR FOTO + DADOS ===================== //
 function carregarPerfilNaTela() {
 
-    // ===================== ESPECIALIDADES DINÂMICAS =====================
     fetch(`/especialidade/listar/${usuario.id}`)
         .then(res => res.json())
         .then(especialidades => {
 
-            console.log("Especialidades recebidas do backend:", especialidades); // <-- aqui
+            console.log("Especialidades recebidas do backend:", especialidades); 
             const cardsContainer = document.getElementById("card-esp");
             if (!cardsContainer) return;
 
-            cardsContainer.innerHTML = ""; // limpa os cards anteriores 
+            cardsContainer.innerHTML = ""; 
 
             especialidades.forEach(e => {
                 let icone = "";
@@ -91,18 +85,16 @@ function carregarPerfilNaTela() {
     const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
     if (!usuario) return;
 
-    // Nome e foto
     const tituloPerfil = document.getElementById("tituloPerfil");
     if (tituloPerfil) tituloPerfil.innerText = `Olá, ${usuario.nome || "Usuário"}!`;
 
     const nomeMini = document.getElementById("nomeMini");
     if (nomeMini) nomeMini.innerText = usuario.nome ? usuario.nome.split(" ")[0] : "Usuário";
 
-    // ======= Foto do perfil =======
-    let caminho = ""; // Nenhuma imagem padrão
+    let caminho = ""; 
 
     if (usuario.imagem_perfil && usuario.imagem_perfil.trim() !== "" && usuario.imagem_perfil !== "null") {
-        caminho = `../assets/imgs/${usuario.imagem_perfil}`; // foto do usuário
+        caminho = `../assets/imgs/${usuario.imagem_perfil}`;
     }
 
     const fotoGrande = document.getElementById("fotoGrande");
@@ -111,16 +103,12 @@ function carregarPerfilNaTela() {
     if (fotoGrande) fotoGrande.style.backgroundImage = caminho ? `url('${caminho}')` : "none";
     if (fotoMini) fotoMini.style.backgroundImage = caminho ? `url('${caminho}')` : "none";
 
-    // Idade
     const idade = calcularIdade(usuario.dt_nasc);
 
-
-    // Preencher dados pessoais
     if (document.getElementById("nomeUsuario")) document.getElementById("nomeUsuario").innerText = usuario.nome || "-";
     if (document.getElementById("idadeUsuario")) document.getElementById("idadeUsuario").innerText = idade;
     if (document.getElementById("emailUsuario")) document.getElementById("emailUsuario").innerText = usuario.email || "-";
 
-    // Preencher dados do desbravador
     if (document.getElementById("tipoMembro")) document.getElementById("tipoMembro").innerText = usuario.tipo_membro || "-";
     if (document.getElementById("cargoUsuario")) document.getElementById("cargoUsuario").innerText = usuario.id_cargo || "-";
     if (document.getElementById("unidadeUsuario")) document.getElementById("unidadeUsuario").innerText = usuario.id_unidade || "-";
@@ -129,7 +117,6 @@ function carregarPerfilNaTela() {
 
 }
 
-// ===================== FUNÇÕES DE DESENVOLVIMENTO (DESEMPENHO) ===================== //
 function salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados) {
     sessionStorage.setItem("DESENVOLVIMENTO_ULTIMO_QUIZ", JSON.stringify(ultimoQuiz));
     sessionStorage.setItem("DESENVOLVIMENTO_RESUMO", JSON.stringify(resumo));
