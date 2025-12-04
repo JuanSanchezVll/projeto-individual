@@ -1,41 +1,39 @@
 var mysql = require("mysql2");
 
 var mySqlConfig = {
-    host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "Foundever.25",
-    database: process.env.DB_DATABASE || "castor",
-    port: process.env.DB_PORT || 3307
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT
 };
 
-function executar(instrucao, valores = []) {
-    return new Promise((resolve, reject) => {
+function executar(instrucao) {
 
+    if (process.env.AMBIENTE_PROCESSO !== "producao" && process.env.AMBIENTE_PROCESSO !== "desenvolvimento") {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM .env OU dev.env OU app.js\n");
+        return Promise.reject("AMBIENTE NÃO CONFIGURADO EM .env");
+    }
+
+    return new Promise(function (resolve, reject) {
         var conexao = mysql.createConnection(mySqlConfig);
+        conexao.connect();
 
-        conexao.connect((erro) => {
-            if (erro) {
-                console.error("DATABASE: Erro ao conectar:", erro);
-                reject(erro);
-                return;
-            }
-        });
-
-        conexao.query(instrucao, valores, (erro, resultados) => {
+        conexao.query(instrucao, function (erro, resultados) {
             conexao.end();
-
             if (erro) {
-                console.error("DATABASE ERROR:", erro.sqlMessage);
                 reject(erro);
             } else {
                 resolve(resultados);
             }
         });
 
-        conexao.on("error", (erro) => {
-            console.error("DATABASE: Erro de conexão:", erro.sqlMessage);
+        conexao.on('error', function (erro) {
+            console.log("ERRO NO MySQL SERVER:", erro.sqlMessage);
         });
     });
 }
 
-module.exports = { executar };
+module.exports = {
+    executar
+};

@@ -1,72 +1,56 @@
 var database = require("../database/config");
 
-function cadastrar(usuario) {
-    const instrucaoSql = `
-        INSERT INTO usuario
-        (nome, dt_nasc, tipo_membro, email, senha, id_cargo, id_unidade, id_classe)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-    `;
-    return database.executar(instrucaoSql, [
-        usuario.nome,
-        usuario.dt_nasc,
-        usuario.tipo_membro,
-        usuario.email,
-        usuario.senha,
-        usuario.id_cargo,
-        usuario.id_unidade,
-        usuario.id_classe
-    ]);
-}
-
 function autenticar(email, senha) {
-    const instrucaoSql = `
+    var instrucaoSql = `
         SELECT 
             id_usuario AS id,
             nome,
             email,
-            imagem_perfil,
+            senha,
             tipo_membro,
             id_cargo,
             id_unidade,
             id_classe,
-            dt_nasc
+            dt_nasc,
+            imagem_perfil
         FROM usuario 
-        WHERE email = ? AND senha = ?;
+        WHERE email = '${email}' 
+        AND senha = '${senha}';
     `;
-
-    return database.executar(instrucaoSql, [email, senha]);
+    return database.executar(instrucaoSql);
 }
 
-
-function buscarPerfil(idUsuario) {
-    const instrucaoSql = `
-        SELECT 
-            id_usuario AS id,
-            nome,
-            dt_nasc,
-            tipo_membro,
-            id_cargo,
-            id_unidade,
-            id_classe,
-            imagem_perfil
-        FROM usuario
-        WHERE id_usuario = ?;
+function cadastrar(nome, dt_nasc, tipo_membro, id_cargo, id_unidade, id_classe, email, senha) {
+    var instrucaoSql = `
+        INSERT INTO usuario 
+        (nome, dt_nasc, tipo_membro, id_cargo, id_unidade, id_classe, email, senha) 
+        VALUES 
+        ('${nome}', '${dt_nasc}', '${tipo_membro}', '${id_cargo}', '${id_unidade}', '${id_classe}', '${email}', '${senha}');
     `;
-    return database.executar(instrucaoSql, [idUsuario]);
+    return database.executar(instrucaoSql);
 }
 
 function salvarFoto(idUsuario, nomeArquivo) {
-    const instrucaoSql = `
+    var instrucaoSql = `
         UPDATE usuario
-        SET imagem_perfil = ?
-        WHERE id_usuario = ?;
+        SET imagem_perfil = '${nomeArquivo}'
+        WHERE id_usuario = ${idUsuario};
     `;
-    return database.executar(instrucaoSql, [nomeArquivo, idUsuario]);
+    return database.executar(instrucaoSql);
+}
+
+function buscarPerfil(idUsuario) {
+    var instrucaoSql = `
+        SELECT *
+        FROM usuario
+        WHERE id_usuario = ${idUsuario};
+    `;
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
-    cadastrar,
     autenticar,
-    buscarPerfil,
-    salvarFoto
+    cadastrar,
+    salvarFoto,
+    buscarPerfil
 };

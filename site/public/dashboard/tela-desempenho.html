@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body onload="initDesempenho()">
+<body onload="Desempenho()">
 
     <aside class="sidebar">
         <img src="" alt="">
@@ -67,40 +67,36 @@
 
     </main>
 
-    <script src="../js/sessao.js"></script>
+    <script src="../js/desempenho.js"></script>
 
 </body>
 
 </html>
 
-
 <script>
 
-    function initDesempenho() {
+    function Desempenho() {
         carregarUsuario();
         carregarDesempenho();
     }
 
     function carregarUsuario() {
-        const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
-
+        var usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
         if (!usuario) {
             console.error("Usuário não encontrado no sessionStorage!");
             return;
         }
 
-        const nomeMini = document.getElementById("nomeMini");
-        const fotoMini = document.getElementById("fotoMini");
+        var nomeMini = document.getElementById("nomeMini");
+        var fotoMini = document.getElementById("fotoMini");
 
         if (nomeMini && usuario.nome) {
-            nomeMini.innerText = `Olá ${usuario.nome.split(" ")[0]}!`;
+            var primeiroNome = usuario.nome.split(" ")[0];
+            nomeMini.innerText = "Olá " + primeiroNome + "!";
         }
 
-        const caminhoFoto = usuario.imagem_perfil
-            ? `/assets/${usuario.imagem_perfil}`
-            : `/assets/imgs/usuario.png`;
-
-        fotoMini.style.backgroundImage = `url('${caminhoFoto}')`;
+        var caminhoFoto = usuario.imagem_perfil ? "/assets/" + usuario.imagem_perfil : "/assets/imgs/usuario.png";
+        fotoMini.style.backgroundImage = "url('" + caminhoFoto + "')";
     }
 
     function salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados) {
@@ -110,92 +106,129 @@
     }
 
     function obterDadosDesempenho() {
-        const ultimoQuiz = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_ULTIMO_QUIZ"));
-        const resumo = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_RESUMO"));
-        const todosResultados = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_TODOS_RESULTADOS"));
-        return { ultimoQuiz, resumo, todosResultados };
+        var ultimoQuiz = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_ULTIMO_QUIZ"));
+        var resumo = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_RESUMO"));
+        var todosResultados = JSON.parse(sessionStorage.getItem("DESENVOLVIMENTO_TODOS_RESULTADOS"));
+        return { ultimoQuiz: ultimoQuiz, resumo: resumo, todosResultados: todosResultados };
     }
 
     async function carregarDesempenho() {
-        const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
+        var usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
         if (!usuario) {
             console.error("Usuário não encontrado no sessionStorage!");
             return;
         }
 
         try {
-            const [ultimoQuizRes, resumoRes, todosResultadosRes] = await Promise.all([
-                fetch(`/dadosQuiz/ultimo/${usuario.id}`),
-                fetch(`/dadosQuiz/resumo/${usuario.id}`),
-                fetch(`/dadosQuiz/listar/${usuario.id}`)
-            ]);
+            var ultimoQuizRes = await fetch("/dadosQuiz/ultimo/" + usuario.id);
+            var resumoRes = await fetch("/dadosQuiz/resumo/" + usuario.id);
+            var todosResultadosRes = await fetch("/dadosQuiz/listar/" + usuario.id);
 
-            const ultimoQuiz = await ultimoQuizRes.json();
-            const resumo = await resumoRes.json();
-            const todosResultados = await todosResultadosRes.json();
+            var ultimoQuiz = await ultimoQuizRes.json();
+            var resumo = await resumoRes.json();
+            var todosResultados = await todosResultadosRes.json();
 
             salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados);
 
-            const quizzesGanhos = todosResultados.filter(q => Number(q.qtd_acertos) >= 3);
+            var quizzesGanhos = [];
+            for (var i = 0; i < todosResultados.length; i++) {
+                if (Number(todosResultados[i].qtd_acertos) >= 3) {
+                    quizzesGanhos.push(todosResultados[i]);
+                }
+            }
 
-            const ultEspecialidade = quizzesGanhos.length
-                ? quizzesGanhos[quizzesGanhos.length - 1].nome_especialidade
-                : "-";
+            var ultEspecialidade = "-";
+            if (quizzesGanhos.length > 0) {
+                ultEspecialidade = quizzesGanhos[quizzesGanhos.length - 1].nome_especialidade;
+            }
             document.getElementById("kpi1").innerText = ultEspecialidade;
 
-            const totalQuizzes = todosResultados.length;
-            document.getElementById("kpi2").innerText = totalQuizzes;
+            document.getElementById("kpi2").innerText = todosResultados.length;
 
-            const somaAcertos = todosResultados.reduce((a, b) => a + Number(b.qtd_acertos), 0);
-            const somaPerguntas = todosResultados.reduce((a, b) => a + Number(b.total_perguntas), 0);
-            const media = somaPerguntas > 0 ? ((somaAcertos / somaPerguntas) * 100).toFixed(1) : "0.0";
+            var somaAcertos = 0;
+            var somaPerguntas = 0;
+            for (var i = 0; i < todosResultados.length; i++) {
+                somaAcertos += Number(todosResultados[i].qtd_acertos);
+                somaPerguntas += Number(todosResultados[i].total_perguntas);
+            }
+            var media = somaPerguntas > 0 ? ((somaAcertos / somaPerguntas) * 100).toFixed(1) : "0.0";
             document.getElementById("kpi3").innerText = media + "%";
 
-            document.getElementById("kpi4").innerText = ultimoQuiz ? `${ultimoQuiz.qtd_acertos}/${ultimoQuiz.total_perguntas}` : "-";
+            document.getElementById("kpi4").innerText = ultimoQuiz ? (ultimoQuiz.qtd_acertos + "/" + ultimoQuiz.total_perguntas) : "-";
 
-            const ctxLinha = document.getElementById("graficoLinha").getContext("2d");
-            if (window.graficoLinha instanceof Chart) window.graficoLinha.destroy();
+            var ctxLinha = document.getElementById("graficoLinha").getContext("2d");
+            if (window.graficoLinha instanceof Chart) {
+                window.graficoLinha.destroy();
+            }
 
-            const coresOficiais = {
+            var coresOficiais = {
                 "Ordem Unida": "#FF7F50",
                 "Nós e Amarras": "#36A2EB",
                 "Acampamento": "#4BC0C0"
             };
 
-            const especialidadesJogadas = [...new Set(todosResultados.map(r => r.nome_especialidade))];
+            var especialidadesJogadas = [];
+            for (var i = 0; i < todosResultados.length; i++) {
+                var esp = todosResultados[i].nome_especialidade;
+                if (especialidadesJogadas.indexOf(esp) === -1) {
+                    especialidadesJogadas.push(esp);
+                }
+            }
 
-            const datasetsLinha = especialidadesJogadas.map(esp => {
-                const resultadosEsp = todosResultados
-                    .filter(r => r.nome_especialidade === esp)
-                    .sort((a, b) => new Date(a.data_inclusao) - new Date(b.data_inclusao));
+            var datasetsLinha = [];
+            for (var i = 0; i < especialidadesJogadas.length; i++) {
+                var esp = especialidadesJogadas[i];
+                var resultadosEsp = [];
+                for (var j = 0; j < todosResultados.length; j++) {
+                    if (todosResultados[j].nome_especialidade === esp) {
+                        resultadosEsp.push(todosResultados[j]);
+                    }
+                }
+    
+                resultadosEsp.sort(function (a, b) {
+                    return new Date(a.data_inclusao) - new Date(b.data_inclusao);
+                });
 
-                const cor = coresOficiais[esp] || "#9966FF";
+                var dataEsp = [];
+                for (var k = 0; k < resultadosEsp.length; k++) {
+                    dataEsp.push(Number(resultadosEsp[k].qtd_acertos));
+                }
 
-                return {
+                var cor = coresOficiais[esp] ? coresOficiais[esp] : "#9966FF";
+
+                datasetsLinha.push({
                     label: esp,
-                    data: resultadosEsp.map(r => Number(r.qtd_acertos)),
+                    data: dataEsp,
                     borderColor: cor,
-                    backgroundColor: 'rgba(0,0,0,0)',
+                    backgroundColor: "rgba(0,0,0,0)",
                     tension: 0.4,
                     fill: false,
                     pointBackgroundColor: cor,
                     pointBorderColor: cor,
                     pointRadius: 8,
                     pointHoverRadius: 10,
-                    pointStyle: 'rectRounded',
+                    pointStyle: "rectRounded",
                     borderWidth: 3,
                     hoverBorderWidth: 4
-                };
-            });
+                });
+            }
 
-            const maxQuizzes = Math.max(...especialidadesJogadas.map(esp =>
-                todosResultados.filter(r => r.nome_especialidade === esp).length
-            ));
+            var maxQuizzes = 0;
+            for (var i = 0; i < especialidadesJogadas.length; i++) {
+                var count = 0;
+                for (var j = 0; j < todosResultados.length; j++) {
+                    if (todosResultados[j].nome_especialidade === especialidadesJogadas[i]) count++;
+                }
+                if (count > maxQuizzes) maxQuizzes = count;
+            }
 
-            const labelsLinha = Array.from({ length: maxQuizzes }, (_, i) => `Quiz ${i + 1}`);
+            var labelsLinha = [];
+            for (var i = 0; i < maxQuizzes; i++) {
+                labelsLinha.push("Quiz " + (i + 1));
+            }
 
             window.graficoLinha = new Chart(ctxLinha, {
-                type: 'line',
+                type: "line",
                 data: { labels: labelsLinha, datasets: datasetsLinha },
                 options: {
                     responsive: true,
@@ -203,90 +236,54 @@
                     plugins: {
                         legend: {
                             display: true,
-                            labels: {
-                                color: '#ffffff',
-                                font: { size: 14, weight: 'bold' },
-                                usePointStyle: true,
-                                pointStyleWidth: 12
-                            }
+                            labels: { color: "#ffffff", font: { size: 14, weight: "bold" }, usePointStyle: true, pointStyleWidth: 12 }
                         },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: '#222',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            titleFont: { weight: 'bold', size: 14 },
-                            bodyFont: { size: 13 },
-                            padding: 10,
-                            cornerRadius: 6,
-                            boxPadding: 4
-                        }
+                        tooltip: { mode: "index", intersect: false, backgroundColor: "#222", titleColor: "#fff", bodyColor: "#fff", titleFont: { weight: "bold", size: 14 }, bodyFont: { size: 13 }, padding: 10, cornerRadius: 6, boxPadding: 4 }
                     },
-                    interaction: { mode: 'nearest', intersect: false },
+                    interaction: { mode: "nearest", intersect: false },
                     scales: {
-                        x: {
-                            title: { display: true, text: "Quizzes Jogados", color: "#ffffff", font: { size: 16, weight: 'bold' } },
-                            ticks: { color: '#ffffff', font: { size: 13 } },
-                            grid: { color: '#444', borderDash: [3, 3] }
-                        },
-                        y: {
-                            title: { display: true, text: "Acertos", color: "#ffffff", font: { size: 16, weight: 'bold' } },
-                            ticks: { color: '#ffffff', font: { size: 13 }, stepSize: 1 },
-                            grid: { color: '#444', borderDash: [3, 3] },
-                            beginAtZero: true,
-                            max: 10
-                        }
+                        x: { title: { display: true, text: "Quizzes Jogados", color: "#ffffff", font: { size: 16, weight: "bold" } }, ticks: { color: "#ffffff", font: { size: 13 } }, grid: { color: "#444", borderDash: [3, 3] } },
+                        y: { title: { display: true, text: "Acertos", color: "#ffffff", font: { size: 16, weight: "bold" } }, ticks: { color: "#ffffff", font: { size: 13 }, stepSize: 1 }, grid: { color: "#444", borderDash: [3, 3] }, beginAtZero: true, max: 10 }
                     }
                 }
             });
 
-            const ctxRosq = document.getElementById("graficoRosquinha").getContext("2d");
+
+            var ctxRosq = document.getElementById("graficoRosquinha").getContext("2d");
             if (window.graficoRosquinha instanceof Chart) window.graficoRosquinha.destroy();
 
-            const labelsRosq = resumo.map(e => e.nome_especialidade);
-            const dataRosq = resumo.map(e => Number(e.quizzes_jogados));
-            const coresRosq = labelsRosq.map(e => coresOficiais[e] || "#9966FF");
+            var labelsRosq = [];
+            var dataRosq = [];
+            var coresRosq = [];
+            for (var i = 0; i < resumo.length; i++) {
+                labelsRosq.push(resumo[i].nome_especialidade);
+                dataRosq.push(Number(resumo[i].quizzes_jogados));
+                coresRosq.push(coresOficiais[resumo[i].nome_especialidade] ? coresOficiais[resumo[i].nome_especialidade] : "#9966FF");
+            }
 
             window.graficoRosquinha = new Chart(ctxRosq, {
-                type: 'doughnut',
-                data: {
-                    labels: labelsRosq,
-                    datasets: [{
-                        data: dataRosq,
-                        backgroundColor: coresRosq,
-                        borderColor: '#121212',
-                        borderWidth: 3,
-                        hoverOffset: 10,
-                        hoverBorderColor: '#ffffff'
-                    }]
-                },
+                type: "doughnut",
+                data: { labels: labelsRosq, datasets: [{ data: dataRosq, backgroundColor: coresRosq, borderColor: "#121212", borderWidth: 3, hoverOffset: 10, hoverBorderColor: "#ffffff" }] },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '50%',
+                    cutout: "50%",
                     plugins: {
                         legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#ffffff',
-                                font: { size: 14, weight: 'bold' },
-                                usePointStyle: true,
-                                pointStyle: 'circle',
-                                pointStyleWidth: 14
-                            }
+                            position: "bottom",
+                            labels: { color: "#ffffff", font: { size: 14, weight: "bold" }, usePointStyle: true, pointStyle: "circle", pointStyleWidth: 14 }
                         },
                         tooltip: {
-                            backgroundColor: '#222',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            titleFont: { weight: 'bold', size: 14 },
+                            backgroundColor: "#222",
+                            titleColor: "#fff",
+                            bodyColor: "#fff",
+                            titleFont: { weight: "bold", size: 14 },
                             bodyFont: { size: 13 },
                             padding: 10,
                             cornerRadius: 6,
                             callbacks: {
                                 label: function (context) {
-                                    return `${context.label}: ${context.raw} quizzes`;
+                                    return context.label + ": " + context.raw + " quizzes";
                                 }
                             }
                         }
@@ -298,5 +295,4 @@
             console.error("Erro ao carregar desempenho:", erro);
         }
     }
-
 </script>

@@ -1,16 +1,20 @@
-const multer = require("multer");
-const crypto = require("crypto");
+const multer = require('multer');
+const crypto = require('crypto');
 
-const diretorio = "public/assets/";
+var diretorio = 'public/assets/';
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, diretorio),
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, diretorio);
+    },
 
-    filename: (req, file, cb) => {
-        const ext = file.originalname.split(".").pop();
-        const nome = crypto.randomBytes(32).toString("hex");
-        cb(null, `${nome}.${ext}`);
+    filename: function (req, file, cb) {
+        var partes = file.originalname.split('.');
+        var extensaoArquivo = partes[partes.length - 1];
+        var novoNomeArquivo = crypto.randomBytes(64).toString('hex');
+
+        cb(null, novoNomeArquivo + '.' + extensaoArquivo);
     }
 });
 
-module.exports = multer({ storage });
+module.exports = multer({ storage: storage });

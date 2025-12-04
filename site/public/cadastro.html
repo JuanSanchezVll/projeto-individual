@@ -12,7 +12,7 @@
     <script src="./js/sessao.js"></script>
 </head>
 
-<body onload="listar()">
+<body>
 
     <div class="bg-blur"></div>
 
@@ -134,41 +134,81 @@
 </html>
 
 <script>
+    function cadastrar() {
+        const nome = nome_input.value.trim();
+        const dataNasc = dt_nasc_input.value;
+        const tipo = select_tipo_membro.value;
+        const cargo = select_cargo.value;
+        const unidade = select_unidade.value;
+        const classe = select_classe.value;
+        const email = email_input.value.trim();
+        const senha = senha_input.value.trim();
 
-    async function cadastrar() {
-        const usuario = {
-            nome: document.getElementById("nome_input").value,
-            dt_nasc: document.getElementById("dt_nasc_input").value,
-            tipo_membro: document.getElementById("select_tipo_membro").value,
-            id_cargo: document.getElementById("select_cargo").value,
-            id_unidade: document.getElementById("select_unidade").value,
-            id_classe: document.getElementById("select_classe").value,
-            email: document.getElementById("email_input").value,
-            senha: document.getElementById("senha_input").value
-        };
-
-        console.log("FRONT-END: Dados do cadastro", usuario);
-
-        try {
-            const resposta = await fetch("/usuarios/cadastrar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(usuario)
-            });
-
-            const data = await resposta.json();
-            console.log("FRONT-END: Resposta backend", data);
-
-            if (data.success) {
-                alert("Cadastro realizado com sucesso!");
-                window.location.href = "./login.html";
-            } else {
-                alert("Erro: " + data.error);
-            }
-        } catch (err) {
-            console.error("FRONT-END: Erro ao cadastrar:", err);
-            alert("Erro ao cadastrar: " + err);
+        if (!nome || nome.length < 2) {
+            alert("Digite um nome válido.");
+            return;
         }
-    }
 
+        if (!dataNasc) {
+            alert("Data de nascimento obrigatória.");
+            return;
+        }
+
+        if (tipo === "Escolha") {
+            alert("Selecione um tipo de membro.");
+            return;
+        }
+
+        if (cargo === "Escolha") {
+            alert("Selecione um cargo.");
+            return;
+        }
+
+        if (unidade === "Escolha") {
+            alert("Selecione uma unidade.");
+            return;
+        }
+
+        if (classe === "Escolha") {
+            alert("Selecione uma classe.");
+            return;
+        }
+
+        if (!email || !email.includes("@")) {
+            alert("Digite um e-mail válido.");
+            return;
+        }
+
+        if (senha.length < 6) {
+            alert("A senha deve ter no mínimo 6 caracteres.");
+            return;
+        }
+
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nomeServer: nome,
+                dtNascServer: dataNasc,
+                tipoMembroServer: tipo,
+                cargoServer: cargo,
+                unidadeServer: unidade,
+                classeServer: classe,
+                emailServer: email,
+                senhaServer: senha
+            })
+        })
+            .then(res => {
+                if (!res.ok) {
+                    alert("Erro ao cadastrar.");
+                    return;
+                }
+
+                alert("Cadastro realizado com sucesso!");
+                window.location.href = "login.html";
+            })
+            .catch(err => {
+                console.log("ERRO:", err);
+            });
+    }
 </script>
