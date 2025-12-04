@@ -45,7 +45,6 @@
                 <input type="file" id="input_file" accept="image/*" style="display: none">
             </div>
 
-
             <div class="perfil-dados">
 
                 <div class="subbloco-pessoal" id="dadosPessoais">
@@ -54,7 +53,6 @@
                     <p><strong>Idade:</strong> <span id="idadeUsuario">-</span></p>
                     <p><strong>E-mail:</strong> <span id="emailUsuario">-</span></p>
                 </div>
-
 
                 <div class="subbloco" id="dadosDesbravador">
                     <h3>Dados do Desbravador</h3>
@@ -76,17 +74,13 @@
 
 </body>
 
-</html>
-
 <script>
-
     const tiposMembro = { 1: "Desbravador", 2: "Diretoria", 3: "Visitante" };
     const cargos = {
         1: "Diretor", 2: "D. Associado", 3: "Capelão", 4: "Secretário", 5: "Tesoureiro",
         6: "Conselheiro", 7: "Instrutor", 8: "Coord. Atividades", 9: "Logística",
         10: "Comunicação", 11: "N/A"
     };
-
     const unidades = { 1: "Diretoria", 2: "Guepardos", 3: "Leões", 4: "Panteras", 5: "Onças", 6: "N/A" };
     const classes = { 1: "Amigo", 2: "Companheiro", 3: "Pesquisador", 4: "Pioneiro", 5: "Excursionista", 6: "Guia", 7: "N/A" };
 
@@ -105,12 +99,9 @@
         console.log("Sessão válida:", usuario);
     }
 
-
     function carregarPerfilNaTela() {
         const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
         if (!usuario) return;
-
-        console.log("Carregando perfil:", usuario);
 
         document.getElementById("nomeMini").innerText = `Olá ${usuario.nome ? usuario.nome.split(" ")[0] : "Usuário"}!`;
 
@@ -127,8 +118,6 @@
         document.getElementById("unidadeUsuario").innerText = unidades[usuario.id_unidade] || "-";
         document.getElementById("classeUsuario").innerText = classes[usuario.id_classe] || "-";
 
-
-
         fetch(`/especialidade/listar/${usuario.id}`)
             .then(res => res.json())
             .then(especialidades => {
@@ -142,7 +131,6 @@
                 carregarEspecialidades();
             });
     }
-
 
     function carregarEspecialidades() {
         const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
@@ -162,6 +150,7 @@
 
         especialidades.forEach(e => {
             let icone = "padrao.png";
+
             switch (e.nome_especialidade) {
                 case "Ordem Unida": icone = "ordem-unida.webp"; break;
                 case "Nós e Amarras": icone = "nos-amarras.webp"; break;
@@ -177,13 +166,12 @@
             const card = document.createElement("div");
             card.classList.add("card-esp");
             card.innerHTML = `
-            <img src="../assets/icones/dashboard/${icone}" alt="${e.nome_especialidade}">
-            <span>${e.nome_especialidade}</span>
-        `;
+                <img src="../assets/icones/dashboard/${icone}" alt="${e.nome_especialidade}">
+                <span>${e.nome_especialidade}</span>
+            `;
             cardsContainer.appendChild(card);
         });
     }
-
 
     function calcularIdade(dataNasc) {
         if (!dataNasc) return "-";
@@ -194,7 +182,6 @@
         if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--;
         return idade;
     }
-
 
     function configurarUpload() {
         const inputFile = document.getElementById("input_file");
@@ -209,18 +196,13 @@
             formData.append("foto", arquivo);
             formData.append("idUsuario", usuario.id);
 
-            console.log("Enviando arquivo:", arquivo.name);
-
             fetch("/usuarios/salvarFoto", { method: "POST", body: formData })
                 .then(res => res.json())
                 .then(json => {
-                    console.log("Upload resposta:", json);
                     if (!json.success) return alert("Erro ao enviar foto");
-
                     const caminho = `/assets/${json.nomeArquivo}`;
                     document.getElementById("fotoGrande").style.backgroundImage = `url('${caminho}')`;
                     document.getElementById("fotoMini").style.backgroundImage = `url('${caminho}')`;
-
                     usuario.imagem_perfil = json.nomeArquivo;
                     sessionStorage.setItem("USUARIO_DADOS", JSON.stringify(usuario));
                 })
@@ -232,6 +214,5 @@
         sessionStorage.clear();
         window.location = "../login.html";
     }
-
 
 </script>

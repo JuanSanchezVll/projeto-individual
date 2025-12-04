@@ -61,7 +61,7 @@
                         <span>Nós e Amarras</span>
                     </div>
 
-                    <div class="especialidade">
+                    <div class="especialidade clicavel" onclick="iniciarQuiz(3)">
                         <div class="esp-img">
                             <img src="../assets/icones/dashboard/acampamento.webp">
                         </div>
@@ -144,11 +144,7 @@
 
     <div id="resultadoFinal" class="resultado-final" style="display:none;"></div>
 
-    <div id="listaEspecialidades"></div>
-
 </body>
-
-</html>
 
 
 <script>
@@ -174,92 +170,128 @@
     }
 
 
-    const perguntas = [
-
+    const perguntasOrdemUnida = [
         {
             enunciado: "1. O que é Ordem Unida?",
-            alternativas: {
-                a: "Um conjunto de movimentos organizados padronizados",
-                b: "A forma de organizar equipes em acampamento",
-                c: "Um tipo de marcha utilizada apenas no exército"
-            },
+            alternativas: { a: "Um conjunto de movimentos organizados padronizados", b: "A forma de organizar equipes em acampamento", c: "Um tipo de marcha utilizada apenas no exército" },
             correta: "a"
         },
         {
             enunciado: "2. Para que serve a Ordem Unida?",
-            alternativas: {
-                a: "Dar disciplina, coordenação e ritmo ao grupo",
-                b: "Apenas para apresentações públicas",
-                c: "Para treinar corrida"
-            },
+            alternativas: { a: "Dar disciplina, coordenação e ritmo ao grupo", b: "Apenas para apresentações públicas", c: "Para treinar corrida" },
             correta: "a"
         },
         {
             enunciado: "3. O comando 'Sentido!' significa:",
-            alternativas: {
-                a: "Ficar imóvel em posição de atenção",
-                b: "Descansar no lugar",
-                c: "Virar à direita"
-            },
+            alternativas: { a: "Ficar imóvel em posição de atenção", b: "Descansar no lugar", c: "Virar à direita" },
             correta: "a"
         },
         {
             enunciado: "4. O comando 'Esquerda VOLVER!' significa:",
-            alternativas: {
-                a: "Meia-volta",
-                b: "Virar à esquerda em 90°",
-                c: "Virar à direita"
-            },
+            alternativas: { a: "Meia-volta", b: "Virar à esquerda em 90°", c: "Virar à direita" },
             correta: "b"
         },
         {
             enunciado: "5. O comando 'Ordem unida, marcha!' significa:",
-            alternativas: {
-                a: "Iniciar deslocamento marchando",
-                b: "Correr lentamente",
-                c: "Parar imediatamente"
-            },
+            alternativas: { a: "Iniciar deslocamento marchando", b: "Correr lentamente", c: "Parar imediatamente" },
             correta: "a"
         }
     ];
 
+    const perguntasNosAmarras = [
+        {
+            enunciado: "1. Qual é o objetivo principal de um nó?",
+            alternativas: { a: "Decorar cordas", b: "Fixar, prender ou unir objetos", c: "Para brincar" },
+            correta: "b"
+        },
+        {
+            enunciado: "2. O nó direito é usado para:",
+            alternativas: { a: "Unir duas cordas de forma simples", b: "Amarrar sapatos apenas", c: "Suspender barracas" },
+            correta: "a"
+        },
+        {
+            enunciado: "3. Qual nó é mais seguro para escalar?",
+            alternativas: { a: "Nó de oito", b: "Laço simples", c: "Meia-volta" },
+            correta: "a"
+        },
+        {
+            enunciado: "4. O nó corrediço é útil para:",
+            alternativas: { a: "Amarrar objetos que precisam de ajuste", b: "Parar uma corrida", c: "Segurar mochilas pequenas" },
+            correta: "a"
+        },
+        {
+            enunciado: "5. O nó de pescador é usado para:",
+            alternativas: { a: "Juntar duas cordas de forma segura", b: "Decorar cordas", c: "Suspender bandeiras" },
+            correta: "a"
+        }
+    ];
 
+    const perguntasAcampamento = [
+        {
+            enunciado: "1. Qual é o principal objetivo de um acampamento?",
+            alternativas: { a: "Aprender técnicas de sobrevivência e convivência em grupo", b: "Apenas dormir ao ar livre", c: "Jogar futebol" },
+            correta: "a"
+        },
+        {
+            enunciado: "2. Como montar uma barraca corretamente?",
+            alternativas: { a: "De qualquer jeito, desde que fique de pé", b: "Seguindo instruções de estacas e lonas", c: "Apenas encostar na árvore" },
+            correta: "b"
+        },
+        {
+            enunciado: "3. Qual cuidado é essencial na fogueira?",
+            alternativas: { a: "Manter sempre longe de barracas e objetos inflamáveis", b: "Acender perto das barracas", c: "Não precisa de cuidado" },
+            correta: "a"
+        },
+        {
+            enunciado: "4. Qual é a função do kit de primeiros socorros no acampamento?",
+            alternativas: { a: "Evitar acidentes", b: "Servir como decoração", c: "Apenas para professores" },
+            correta: "a"
+        },
+        {
+            enunciado: "5. Qual atitude é importante durante a trilha?",
+            alternativas: { a: "Respeitar a natureza e o grupo", b: "Correr à frente sozinho", c: "Não seguir instruções" },
+            correta: "a"
+        }
+    ];
+
+    let perguntas = perguntasOrdemUnida;
     let perguntaAtual = 0;
     let acertos = 0;
     let respostas = {};
     let idEspecialidadeAtual = 1;
-
 
     function iniciarQuiz(idEsp) {
         idEspecialidadeAtual = idEsp;
         perguntaAtual = 0;
         respostas = {};
 
+        switch (idEsp) {
+            case 1: perguntas = perguntasOrdemUnida; break;
+            case 2: perguntas = perguntasNosAmarras; break;
+            case 3: perguntas = perguntasAcampamento; break;
+        }
+
         document.getElementById("telaCategorias").style.display = "none";
         document.getElementById("telaQuiz").style.display = "block";
+
+        const titulo = document.querySelector(".quiz-titulo");
+        if (idEsp === 1) titulo.innerText = "Especialidade: Ordem Unida";
+        else if (idEsp === 2) titulo.innerText = "Especialidade: Nós e Amarras";
+        else if (idEsp === 3) titulo.innerText = "Especialidade: Acampamento";
 
         carregarPergunta();
     }
 
-
     function carregarPergunta() {
         const p = perguntas[perguntaAtual];
 
-        let html = `
-            <h2>${p.enunciado}</h2>
-            <div class="alternativas">
-        `;
-
+        let html = `<h2>${p.enunciado}</h2><div class="alternativas">`;
         for (let letra in p.alternativas) {
-            html += `
-                <label class="alternativa">
-                    <input type="radio" name="alt" value="${letra}"
-                    ${respostas[perguntaAtual] === letra ? "checked" : ""}>
-                    ${letra.toUpperCase()}) ${p.alternativas[letra]}
-                </label>
-            `;
+            html += `<label class="alternativa">
+            <input type="radio" name="alt" value="${letra}" ${respostas[perguntaAtual] === letra ? "checked" : ""}>
+            ${letra.toUpperCase()}) ${p.alternativas[letra]}
+        </label>`;
         }
-
         html += "</div>";
 
         document.getElementById("areaPergunta").innerHTML = html;
@@ -268,39 +300,31 @@
         document.getElementById("btnSubmeter").style.display = perguntaAtual === perguntas.length - 1 ? "block" : "none";
     }
 
-
     function avancar() {
         const selecionada = document.querySelector("input[name='alt']:checked");
         if (!selecionada) return alert("Selecione uma alternativa!");
-
         respostas[perguntaAtual] = selecionada.value;
-
         perguntaAtual++;
         carregarPergunta();
     }
-
 
     function voltar() {
         if (perguntaAtual === 0) {
             voltarCategorias();
             return;
         }
-
         perguntaAtual--;
         carregarPergunta();
     }
-
 
     function voltarCategorias() {
         perguntaAtual = 0;
         respostas = {};
         acertos = 0;
-
         document.getElementById("telaCategorias").style.display = "block";
         document.getElementById("telaQuiz").style.display = "none";
         document.getElementById("resultadoFinal").style.display = "none";
     }
-
 
     function salvarEspecialidade(idEspecialidade) {
         const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
@@ -309,98 +333,75 @@
         fetch("/especialidade/ganhar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                idUsuario: usuario.id,
-                idEspecialidade
-            })
+            body: JSON.stringify({ idUsuario: usuario.id, idEspecialidade })
         })
             .then(r => r.json())
             .then(resp => {
-                console.log("Especialidade salva:", resp);
-
                 const dados = JSON.parse(sessionStorage.getItem("USUARIO_DADOS")) || {};
                 if (!dados.especialidades) dados.especialidades = [];
 
+                let nomeEsp = idEspecialidade === 1 ? "Ordem Unida" :
+                    idEspecialidade === 2 ? "Nós e Amarras" : "Acampamento";
+
                 const jaTem = dados.especialidades.some(e => Number(e.id_especialidade) === Number(idEspecialidade));
                 if (!jaTem) {
-                    dados.especialidades.push({
-                        id_especialidade: idEspecialidade,
-                        nome_especialidade: "Ordem Unida"
-                    });
+                    dados.especialidades.push({ id_especialidade: idEspecialidade, nome_especialidade: nomeEsp });
                     sessionStorage.setItem("USUARIO_DADOS", JSON.stringify(dados));
                 }
             })
             .catch(err => console.error("Erro ao salvar especialidade:", err));
     }
 
-
     function finalizarQuiz() {
         const selecionada = document.querySelector("input[name='alt']:checked");
         if (!selecionada) return alert("Selecione uma alternativa!");
-
         respostas[perguntaAtual] = selecionada.value;
+
         acertos = perguntas.filter((p, i) => respostas[i] === p.correta).length;
 
         const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
-        if (!usuario || !usuario.id) {
-            console.error("Usuário não encontrado no sessionStorage!");
-            return;
-        }
-
+        if (!usuario || !usuario.id) return console.error("Usuário não encontrado!");
 
         fetch("/dadosQuiz/registrar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 idUsuario: usuario.id,
-                idEspecialidade: idEspecialidadeAtual || 1,
+                idEspecialidade: idEspecialidadeAtual,
                 qtdAcertos: acertos,
                 totalPerguntas: perguntas.length
             })
         })
             .then(r => r.json())
-            .then(data => {
-                console.log("Resultado salvo no backend:", data);
-
-                sessionStorage.removeItem("DESENVOLVIMENTO_ULTIMO_QUIZ");
-                sessionStorage.removeItem("DESENVOLVIMENTO_RESUMO");
-                sessionStorage.removeItem("DESENVOLVIMENTO_TODOS_RESULTADOS");
-
-                sessionStorage.setItem("QUIZ_DADOS", JSON.stringify({ respostas, perguntaAtual, acertos }));
-
-
-            })
-            .catch(err => {
-                console.error("Erro ao registrar o resultado do quiz:", err);
-            });
+            .then(data => console.log("Resultado salvo:", data))
+            .catch(err => console.error("Erro ao registrar:", err));
 
         document.getElementById("telaQuiz").style.display = "none";
         const div = document.getElementById("resultadoFinal");
 
+        let nomeEsp = idEspecialidadeAtual === 1 ? "Ordem Unida" :
+            idEspecialidadeAtual === 2 ? "Nós e Amarras" : "Acampamento";
+
         if (acertos >= 3) {
-            div.innerHTML = `
-            <h2>Meus Parabéns!!</h2>
+            div.innerHTML = `<h2>Meus Parabéns!!</h2>
             <p>Você acertou <strong>${acertos}</strong> de ${perguntas.length}!</p>
-            <p>Você ganhou a especialidade de Ordem Unida!</p>
-            <button id="btnPerfil">Ir para o perfil</button>
-        `;
-
-            salvarEspecialidade(idEspecialidadeAtual || 1);
-
-            document.getElementById("btnPerfil").onclick = () => {
-                window.location.href = "tela-perfil.html";
-            };
+            <p>Você ganhou a especialidade de ${nomeEsp}!</p>
+            <button id="btnPerfil">Ir para o perfil</button>`;
+            salvarEspecialidade(idEspecialidadeAtual);
+            document.getElementById("btnPerfil").onclick = () => window.location.href = "tela-perfil.html";
         } else {
-            div.innerHTML = `
-            <h2>Boa tentativa!</h2>
+            div.innerHTML = `<h2>Boa tentativa!</h2>
             <p>Você acertou <strong>${acertos}</strong> de ${perguntas.length}.</p>
             <p>Continue tentando, você consegue!</p>
-            <button onclick="voltarCategorias()">Tentar novamente</button>
-        `;
-
+            <button onclick="voltarCategorias()" id="btnPerfil">Tentar novamente</button>`;
         }
 
         div.style.display = "block";
+    }
+
+    function limparSessao() {
+        sessionStorage.clear();
+        window.location = "../index.html";
     }
 
 </script>

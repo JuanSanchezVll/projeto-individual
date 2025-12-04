@@ -127,6 +127,7 @@ body {
     text-align: center;
     transition: 0.3s;
     cursor: pointer;
+    border: 1px solid #ff8c00;
 }
 
 .kpi:hover {
@@ -155,7 +156,7 @@ body {
     border-radius: 18px;
     padding: 25px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    border: 2px solid #4BC0C0;
+    border: 2px solid #ff8c00;
     flex: 1 1 48%;
     height: 460px;
 }
@@ -172,7 +173,7 @@ body {
     border-radius: 18px;
     padding: 25px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    border: 2px solid #4BC0C0;
+    border: 2px solid #ff8c00;
     flex: 1 1 48%;
 }
 

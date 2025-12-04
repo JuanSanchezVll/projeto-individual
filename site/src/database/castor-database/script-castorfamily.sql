@@ -2,6 +2,7 @@
 CREATE DATABASE castor;
 USE castor;
 
+
 -- Tabelas Principais  _______________________________________________________________________________________________________________________________________________________
 CREATE TABLE usuario (
   id_usuario INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,6 +63,7 @@ CREATE TABLE dados_quiz (
   FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
   FOREIGN KEY (id_especialidade) REFERENCES especialidade(id_especialidade)
 );
+
 
 -- Tabelas restantes _______________________________________________________________________________________________________________________________________________
 CREATE TABLE cargo (
@@ -173,12 +175,13 @@ SELECT * FROM cargo;
 SELECT * FROM unidade;
 SELECT * FROM classe;
 
+SELECT u.id_usuario, u.nome, d.qtd_acertos FROM usuario u JOIN dados_quiz d ON d.id_usuario = u.id_usuario;
+
+
 
 -- limpar usuarios ___________________________________________________________________________________________________________________________________________________
-TRUNCATE usuario;
+TRUNCATE cargo;
 DESC usuario;
-
-drop table especialidade;
 
 
 -- Inserts de teste _______________________________________________________________________________________________________

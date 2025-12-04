@@ -1,3 +1,27 @@
+/* ============================================================
+   SESSÃO.JS - GERENCIAMENTO DE USUÁRIO E DESENVOLVIMENTO
+============================================================ */
+
+/* ============================================================
+   MAPAS DE REFERÊNCIA (Banco de dados)
+============================================================ */
+const cargosMap = {
+    1: "Diretor", 2: "D. Associado", 3: "Capelão", 4: "Secretário", 5: "Tesoureiro",
+    6: "Conselheiro", 7: "Instrutor", 8: "Coord. Atividades", 9: "Logística",
+    10: "Comunicação", 11: "N/A"
+};
+
+const unidadesMap = {
+    1: "Diretoria", 2: "Guepardos", 3: "Leões", 4: "Panteras", 5: "Onças", 6: "N/A"
+};
+
+const classesMap = {
+    1: "Amigo", 2: "Companheiro", 3: "Pesquisador", 4: "Pioneiro", 5: "Excursionista", 6: "Guia", 7: "N/A"
+};
+
+/* ============================================================
+   SESSÃO
+============================================================ */
 function validarSessao() {
     const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
     if (!usuario) {
@@ -14,6 +38,9 @@ function limparSessao() {
     window.location = "../login.html";
 }
 
+/* ============================================================
+   AGUARDAR
+============================================================ */
 function aguardar() {
     const divAguardar = document.getElementById("div_aguardar");
     if (divAguardar) divAguardar.style.display = "flex";
@@ -30,6 +57,9 @@ function finalizarAguardar(texto) {
     }
 }
 
+/* ============================================================
+   UTILITÁRIOS
+============================================================ */
 function calcularIdade(dataNasc) {
     if (!dataNasc) return "-";
     const hoje = new Date();
@@ -40,17 +70,57 @@ function calcularIdade(dataNasc) {
     return idade;
 }
 
+/* ============================================================
+   PERFIL
+============================================================ */
 function carregarPerfilNaTela() {
+    const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
+    if (!usuario) return;
 
-    fetch(`/especialidade/listar/${usuario.id}`)
+    // =======================
+    // Mini perfil
+    // =======================
+    const nomeMini = document.getElementById("nomeMini");
+    if (nomeMini) nomeMini.innerText = usuario.nome ? usuario.nome.split(" ")[0] : "Usuário";
+
+    // Foto de perfil
+    let caminho = "";
+    if (usuario.imagem_perfil && usuario.imagem_perfil.trim() !== "" && usuario.imagem_perfil !== "null") {
+        caminho = `../assets/imgs/${usuario.imagem_perfil}`;
+    }
+
+    const fotoGrande = document.getElementById("fotoGrande");
+    const fotoMini = document.getElementById("fotoMini");
+    if (fotoGrande) fotoGrande.style.backgroundImage = caminho ? `url('${caminho}')` : "none";
+    if (fotoMini) fotoMini.style.backgroundImage = caminho ? `url('${caminho}')` : "none";
+
+    // Informações do perfil
+    const tituloPerfil = document.getElementById("tituloPerfil");
+    if (tituloPerfil) tituloPerfil.innerText = `Olá, ${usuario.nome || "Usuário"}!`;
+
+    const idade = calcularIdade(usuario.dt_nasc);
+
+    if (document.getElementById("nomeUsuario")) document.getElementById("nomeUsuario").innerText = usuario.nome || "-";
+    if (document.getElementById("idadeUsuario")) document.getElementById("idadeUsuario").innerText = idade;
+    if (document.getElementById("emailUsuario")) document.getElementById("emailUsuario").innerText = usuario.email || "-";
+
+    if (document.getElementById("tipoMembro")) document.getElementById("tipoMembro").innerText = usuario.tipo_membro || "-";
+    if (document.getElementById("cargoUsuario")) document.getElementById("cargoUsuario").innerText = cargosMap[usuario.id_cargo] || "-";
+    if (document.getElementById("unidadeUsuario")) document.getElementById("unidadeUsuario").innerText = unidadesMap[usuario.id_unidade] || "-";
+    if (document.getElementById("classeUsuario")) document.getElementById("classeUsuario").innerText = classesMap[usuario.id_classe] || "-";
+
+    // =======================
+    // Especialidades
+    // =======================
+    fetch(`/especialidade/listar/${usuario.id_usuario}`)
         .then(res => res.json())
         .then(especialidades => {
+            console.log("Especialidades recebidas do backend:", especialidades);
 
-            console.log("Especialidades recebidas do backend:", especialidades); 
             const cardsContainer = document.getElementById("card-esp");
             if (!cardsContainer) return;
 
-            cardsContainer.innerHTML = ""; 
+            cardsContainer.innerHTML = "";
 
             especialidades.forEach(e => {
                 let icone = "";
@@ -64,7 +134,7 @@ function carregarPerfilNaTela() {
                     case "Astronomia": icone = "astronomia.png"; break;
                     case "Árvores": icone = "arvores.webp"; break;
                     case "Répteis": icone = "repteis.webp"; break;
-                    default: icone = "pdrao.png";
+                    default: icone = "padrao.png";
                 }
 
                 const card = document.createElement("div");
@@ -77,46 +147,11 @@ function carregarPerfilNaTela() {
             });
         })
         .catch(err => console.error("Erro ao carregar especialidades:", err));
-
-
-
-
-
-    const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
-    if (!usuario) return;
-
-    const tituloPerfil = document.getElementById("tituloPerfil");
-    if (tituloPerfil) tituloPerfil.innerText = `Olá, ${usuario.nome || "Usuário"}!`;
-
-    const nomeMini = document.getElementById("nomeMini");
-    if (nomeMini) nomeMini.innerText = usuario.nome ? usuario.nome.split(" ")[0] : "Usuário";
-
-    let caminho = ""; 
-
-    if (usuario.imagem_perfil && usuario.imagem_perfil.trim() !== "" && usuario.imagem_perfil !== "null") {
-        caminho = `../assets/imgs/${usuario.imagem_perfil}`;
-    }
-
-    const fotoGrande = document.getElementById("fotoGrande");
-    const fotoMini = document.getElementById("fotoMini");
-
-    if (fotoGrande) fotoGrande.style.backgroundImage = caminho ? `url('${caminho}')` : "none";
-    if (fotoMini) fotoMini.style.backgroundImage = caminho ? `url('${caminho}')` : "none";
-
-    const idade = calcularIdade(usuario.dt_nasc);
-
-    if (document.getElementById("nomeUsuario")) document.getElementById("nomeUsuario").innerText = usuario.nome || "-";
-    if (document.getElementById("idadeUsuario")) document.getElementById("idadeUsuario").innerText = idade;
-    if (document.getElementById("emailUsuario")) document.getElementById("emailUsuario").innerText = usuario.email || "-";
-
-    if (document.getElementById("tipoMembro")) document.getElementById("tipoMembro").innerText = usuario.tipo_membro || "-";
-    if (document.getElementById("cargoUsuario")) document.getElementById("cargoUsuario").innerText = usuario.id_cargo || "-";
-    if (document.getElementById("unidadeUsuario")) document.getElementById("unidadeUsuario").innerText = usuario.id_unidade || "-";
-    if (document.getElementById("classeUsuario")) document.getElementById("classeUsuario").innerText = usuario.id_classe || "-";
-
-
 }
 
+/* ============================================================
+   DESEMPENHO
+============================================================ */
 function salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados) {
     sessionStorage.setItem("DESENVOLVIMENTO_ULTIMO_QUIZ", JSON.stringify(ultimoQuiz));
     sessionStorage.setItem("DESENVOLVIMENTO_RESUMO", JSON.stringify(resumo));

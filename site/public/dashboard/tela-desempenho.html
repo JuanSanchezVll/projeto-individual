@@ -65,11 +65,6 @@
             </div>
         </div>
 
-        <!-- <div class="grafico-container-barras" style="margin-top: 40px; width: 100%;">
-            <h2 class="grafico-titulo">Acertos por Especialidade</h2>
-            <canvas id="graficoBarras"></canvas>
-        </div> -->
-
     </main>
 
     <script src="../js/sessao.js"></script>
@@ -78,14 +73,13 @@
 
 </html>
 
+
 <script>
 
     function initDesempenho() {
         carregarUsuario();
         carregarDesempenho();
-        carregarBarras();
     }
-
 
     function carregarUsuario() {
         const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
@@ -109,7 +103,6 @@
         fotoMini.style.backgroundImage = `url('${caminhoFoto}')`;
     }
 
-
     function salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados) {
         sessionStorage.setItem("DESENVOLVIMENTO_ULTIMO_QUIZ", JSON.stringify(ultimoQuiz));
         sessionStorage.setItem("DESENVOLVIMENTO_RESUMO", JSON.stringify(resumo));
@@ -123,7 +116,6 @@
         return { ultimoQuiz, resumo, todosResultados };
     }
 
-
     async function carregarDesempenho() {
         const usuario = JSON.parse(sessionStorage.getItem("USUARIO_DADOS"));
         if (!usuario) {
@@ -132,7 +124,6 @@
         }
 
         try {
-
             const [ultimoQuizRes, resumoRes, todosResultadosRes] = await Promise.all([
                 fetch(`/dadosQuiz/ultimo/${usuario.id}`),
                 fetch(`/dadosQuiz/resumo/${usuario.id}`),
@@ -145,18 +136,19 @@
 
             salvarDadosDesempenho(ultimoQuiz, resumo, todosResultados);
 
-            const usuarioSession = JSON.parse(sessionStorage.getItem("USUARIO_DADOS")) || {};
-            const ultEspecial = (usuarioSession.especialidades && usuarioSession.especialidades.length > 0)
-                ? usuarioSession.especialidades[usuarioSession.especialidades.length - 1].nome_especialidade
-                : "-";
-            document.getElementById("kpi1").innerText = ultEspecial;
+            const quizzesGanhos = todosResultados.filter(q => Number(q.qtd_acertos) >= 3);
 
-            const totalQuizzes = resumo.reduce((a, b) => a + (b.quizzes_jogados || 0), 0);
+            const ultEspecialidade = quizzesGanhos.length
+                ? quizzesGanhos[quizzesGanhos.length - 1].nome_especialidade
+                : "-";
+            document.getElementById("kpi1").innerText = ultEspecialidade;
+
+            const totalQuizzes = todosResultados.length;
             document.getElementById("kpi2").innerText = totalQuizzes;
 
-            let somaAcertos = resumo.reduce((a, b) => a + Number(b.total_acertos || 0), 0);
-            let somaPerguntas = resumo.reduce((a, b) => a + Number(b.total_perguntas || 0), 0);
-            let media = somaPerguntas > 0 ? ((somaAcertos / somaPerguntas) * 100).toFixed(1) : "0.0";
+            const somaAcertos = todosResultados.reduce((a, b) => a + Number(b.qtd_acertos), 0);
+            const somaPerguntas = todosResultados.reduce((a, b) => a + Number(b.total_perguntas), 0);
+            const media = somaPerguntas > 0 ? ((somaAcertos / somaPerguntas) * 100).toFixed(1) : "0.0";
             document.getElementById("kpi3").innerText = media + "%";
 
             document.getElementById("kpi4").innerText = ultimoQuiz ? `${ultimoQuiz.qtd_acertos}/${ultimoQuiz.total_perguntas}` : "-";
@@ -164,62 +156,84 @@
             const ctxLinha = document.getElementById("graficoLinha").getContext("2d");
             if (window.graficoLinha instanceof Chart) window.graficoLinha.destroy();
 
-            const idEspParaLinha = ultimoQuiz ? ultimoQuiz.id_especialidade : (todosResultados[0] ? todosResultados[0].id_especialidade : null);
-            const resultadosLinha = idEspParaLinha ? todosResultados.filter(r => r.id_especialidade === idEspParaLinha) : [];
-            const labelsLinha = resultadosLinha.map((r, i) => `Quiz ${i + 1}`);
-            const dataLinha = resultadosLinha.map(r => Number(r.qtd_acertos));
+            const coresOficiais = {
+                "Ordem Unida": "#FF7F50",
+                "Nós e Amarras": "#36A2EB",
+                "Acampamento": "#4BC0C0"
+            };
+
+            const especialidadesJogadas = [...new Set(todosResultados.map(r => r.nome_especialidade))];
+
+            const datasetsLinha = especialidadesJogadas.map(esp => {
+                const resultadosEsp = todosResultados
+                    .filter(r => r.nome_especialidade === esp)
+                    .sort((a, b) => new Date(a.data_inclusao) - new Date(b.data_inclusao));
+
+                const cor = coresOficiais[esp] || "#9966FF";
+
+                return {
+                    label: esp,
+                    data: resultadosEsp.map(r => Number(r.qtd_acertos)),
+                    borderColor: cor,
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    tension: 0.4,
+                    fill: false,
+                    pointBackgroundColor: cor,
+                    pointBorderColor: cor,
+                    pointRadius: 8,
+                    pointHoverRadius: 10,
+                    pointStyle: 'rectRounded',
+                    borderWidth: 3,
+                    hoverBorderWidth: 4
+                };
+            });
+
+            const maxQuizzes = Math.max(...especialidadesJogadas.map(esp =>
+                todosResultados.filter(r => r.nome_especialidade === esp).length
+            ));
+
+            const labelsLinha = Array.from({ length: maxQuizzes }, (_, i) => `Quiz ${i + 1}`);
 
             window.graficoLinha = new Chart(ctxLinha, {
                 type: 'line',
-                data: {
-                    labels: labelsLinha,
-                    datasets: [{
-                        label: ultimoQuiz ? ultimoQuiz.nome_especialidade : (resultadosLinha[0] ? resultadosLinha[0].nome_especialidade : 'Especialidade'),
-                        data: dataLinha,
-                        borderColor: '#FF7F50',
-                        backgroundColor: 'rgba(255,127,80,0.2)',
-                        tension: 0.3,
-                        fill: true,
-                        pointBackgroundColor: '#FFD27F',
-                        pointBorderColor: '#FF7F50',
-                        pointRadius: 6,
-                        pointHoverRadius: 8
-                    }]
-                },
+                data: { labels: labelsLinha, datasets: datasetsLinha },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             display: true,
                             labels: {
                                 color: '#ffffff',
-                                font: { size: 14 }
+                                font: { size: 14, weight: 'bold' },
+                                usePointStyle: true,
+                                pointStyleWidth: 12
                             }
                         },
-                        tooltip: { mode: 'index', intersect: false }
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: '#222',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            titleFont: { weight: 'bold', size: 14 },
+                            bodyFont: { size: 13 },
+                            padding: 10,
+                            cornerRadius: 6,
+                            boxPadding: 4
+                        }
                     },
                     interaction: { mode: 'nearest', intersect: false },
-
                     scales: {
                         x: {
-                            title: {
-                                display: true,
-                                text: "Quizzes Jogados",
-                                color: "#ffffff",
-                                font: { size: 16, weight: 'bold' }
-                            },
-                            ticks: { color: '#ffffff' },
-                            grid: { color: '#333' }
+                            title: { display: true, text: "Quizzes Jogados", color: "#ffffff", font: { size: 16, weight: 'bold' } },
+                            ticks: { color: '#ffffff', font: { size: 13 } },
+                            grid: { color: '#444', borderDash: [3, 3] }
                         },
                         y: {
-                            title: {
-                                display: true,
-                                text: "Acertos",
-                                color: "#ffffff",
-                                font: { size: 16, weight: 'bold' }
-                            },
-                            ticks: { color: '#ffffff' },
-                            grid: { color: '#333' },
+                            title: { display: true, text: "Acertos", color: "#ffffff", font: { size: 16, weight: 'bold' } },
+                            ticks: { color: '#ffffff', font: { size: 13 }, stepSize: 1 },
+                            grid: { color: '#444', borderDash: [3, 3] },
                             beginAtZero: true,
                             max: 10
                         }
@@ -232,7 +246,7 @@
 
             const labelsRosq = resumo.map(e => e.nome_especialidade);
             const dataRosq = resumo.map(e => Number(e.quizzes_jogados));
-            const coresRosq = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+            const coresRosq = labelsRosq.map(e => coresOficiais[e] || "#9966FF");
 
             window.graficoRosquinha = new Chart(ctxRosq, {
                 type: 'doughnut',
@@ -240,19 +254,36 @@
                     labels: labelsRosq,
                     datasets: [{
                         data: dataRosq,
-                        backgroundColor: coresRosq.slice(0, labelsRosq.length),
+                        backgroundColor: coresRosq,
                         borderColor: '#121212',
-                        borderWidth: 2
+                        borderWidth: 3,
+                        hoverOffset: 10,
+                        hoverBorderColor: '#ffffff'
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '50%',
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { color: '#ffffff', font: { size: 14 }, usePointStyle: true, pointStyle: 'circle' }
+                            labels: {
+                                color: '#ffffff',
+                                font: { size: 14, weight: 'bold' },
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                pointStyleWidth: 14
+                            }
                         },
                         tooltip: {
+                            backgroundColor: '#222',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            titleFont: { weight: 'bold', size: 14 },
+                            bodyFont: { size: 13 },
+                            padding: 10,
+                            cornerRadius: 6,
                             callbacks: {
                                 label: function (context) {
                                     return `${context.label}: ${context.raw} quizzes`;
@@ -266,64 +297,6 @@
         } catch (erro) {
             console.error("Erro ao carregar desempenho:", erro);
         }
-    }
-
-    function carregarBarras() {
-        const labelsBarras = ['Ordem Unida', 'Nós e Amarras', 'Futsal', 'Fogos e Fogões', 'Primeiros Socorros'];
-        const dataBarras = [7, 9, 5, 6, 8];
-        const coresBarras = ['#4BC0C0', '#36A2EB', '#FFCE56', '#FF6384', '#9966FF'];
-
-        const ctxBarras = document.getElementById("graficoBarras").getContext("2d");
-
-        new Chart(ctxBarras, {
-            type: 'bar',
-            data: {
-                labels: labelsBarras,
-                datasets: [{
-                    label: 'Acertos',
-                    data: dataBarras,
-                    backgroundColor: coresBarras,
-                    borderColor: '#121212',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        labels: {
-                            color: '#ffffff',
-                            font: { size: 14 }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Especialidades',
-                            color: '#ffffff',
-                            font: { size: 16 }
-                        },
-                        ticks: { color: '#ffffff' },
-                        grid: { color: '#333' }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Acertos',
-                            color: '#ffffff',
-                            font: { size: 16 }
-                        },
-                        ticks: { color: '#ffffff' },
-                        grid: { color: '#333' },
-                        beginAtZero: true,
-                        suggestedMax: 10
-                    }
-                }
-            }
-        });
     }
 
 </script>
